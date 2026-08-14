@@ -1,0 +1,2203 @@
+<!DOCTYPE html>
+<html lang="zh-HK" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2026 歐洲 72 天跨國大縱走 - 互動旅遊指南</title>
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#f0fdf4',
+                            100: '#dcfce7',
+                            500: '#16a34a',
+                            600: '#15803d',
+                            700: '#15803d',
+                            800: '#166534',
+                            900: '#14532d',
+                        },
+                        accent: {
+                            blue: '#2563eb',
+                            amber: '#d97706',
+                            purple: '#7c3aed',
+                            rose: '#e11d48'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: rgba(0,0,0,0.05);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: rgba(156, 163, 175, 0.5);
+            border-radius: 9999px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(107, 114, 128, 0.8);
+        }
+        
+        /* Smooth transition for theme toggle */
+        body {
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 dark:bg-slate-900 dark:text-slate-100 min-h-screen flex flex-col font-sans pb-20 md:pb-10">
+
+    <!-- Navigation / Header Bar -->
+    <header class="sticky top-0 z-40 bg-white/90 dark:bg-slate-900/90 backdrop-blur-md border-b border-slate-200 dark:border-slate-800 transition-colors">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16 gap-3">
+                
+                <!-- Logo & Title -->
+                <div class="flex items-center gap-3 cursor-pointer" onclick="resetFilters()">
+                    <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-emerald-500 to-teal-600 flex items-center justify-center text-white shadow-md shadow-emerald-500/20">
+                        <i class="fa-solid font-bold text-xl fa-compass animate-spin-slow"></i>
+                    </div>
+                    <div>
+                        <h1 class="text-base sm:text-lg font-bold text-slate-900 dark:text-white leading-tight">
+                            歐洲 72 天大縱走
+                        </h1>
+                        <p class="text-xs text-slate-500 dark:text-slate-400 hidden sm:block">
+                            2026/09/01 - 2026/11/11 專屬互動指南
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Search & Actions -->
+                <div class="flex items-center gap-2 flex-1 max-w-md justify-end">
+                    <!-- Search Input -->
+                    <div class="relative w-full max-w-xs">
+                        <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-xs"></i>
+                        <input id="searchInput" type="text" placeholder="搜尋景點、城市、住宿..." 
+                               class="w-full pl-9 pr-8 py-1.5 text-xs sm:text-sm bg-slate-100 dark:bg-slate-800 border border-transparent dark:border-slate-700 rounded-full focus:outline-none focus:ring-2 focus:ring-emerald-500 text-slate-900 dark:text-white placeholder-slate-400 transition-all">
+                        <button id="clearSearchBtn" onclick="clearSearch()" class="hidden absolute right-2.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 text-xs">
+                            <i class="fa-solid fa-xmark"></i>
+                        </button>
+                    </div>
+
+                    <!-- View Switcher -->
+                    <div class="bg-slate-100 dark:bg-slate-800 p-1 rounded-lg hidden md:flex items-center gap-1 border border-slate-200 dark:border-slate-700">
+                        <button id="btnViewCards" onclick="setViewMode('card')" class="px-2.5 py-1 text-xs font-medium rounded-md bg-white dark:bg-slate-700 shadow-sm text-emerald-600 dark:text-emerald-400 transition">
+                            <i class="fa-solid fa-grip-vertical mr-1"></i>卡片
+                        </button>
+                        <button id="btnViewTimeline" onclick="setViewMode('timeline')" class="px-2.5 py-1 text-xs font-medium rounded-md text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition">
+                            <i class="fa-solid fa-timeline mr-1"></i>時間軸
+                        </button>
+                    </div>
+
+                    <!-- Bookmark Toggle -->
+                    <button onclick="toggleBookmarksFilter()" id="bookmarkFilterBtn" title="已收藏的日程" class="p-2 rounded-xl text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition relative">
+                        <i class="fa-solid fa-heart text-slate-400"></i>
+                        <span id="bookmarkCountBadge" class="hidden absolute -top-1 -right-1 bg-rose-500 text-white text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center">0</span>
+                    </button>
+
+                    <!-- Theme Toggle -->
+                    <button onclick="toggleDarkMode()" title="切換深色/淺色模式" class="p-2 rounded-xl text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition">
+                        <i class="fa-solid fa-moon dark:hidden"></i>
+                        <i class="fa-solid fa-sun hidden dark:block text-amber-400"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Country Selector Bar (Scrollable) -->
+        <div class="border-t border-slate-200/60 dark:border-slate-800/80 bg-slate-50/50 dark:bg-slate-900/50">
+            <div class="max-w-7xl mx-auto px-2 sm:px-6">
+                <div id="countryTabsContainer" class="flex items-center gap-1.5 py-2 overflow-x-auto no-scrollbar text-xs">
+                    <!-- Dynamically Populated Country Pills -->
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex-1 w-full">
+        
+        <!-- Quick Stats Banner -->
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-6">
+            <div class="bg-white dark:bg-slate-800/90 rounded-2xl p-3.5 border border-slate-200/80 dark:border-slate-700/80 shadow-sm flex items-center gap-3">
+                <div class="w-10 h-10 rounded-xl bg-emerald-100 dark:bg-emerald-950/60 text-emerald-600 dark:text-emerald-400 flex items-center justify-center text-lg font-bold">
+                    <i class="fa-solid fa-calendar-days"></i>
+                </div>
+                <div>
+                    <div class="text-xs text-slate-500 dark:text-slate-400 font-medium">總行程天數</div>
+                    <div class="text-lg font-black text-slate-800 dark:text-white">72 <span class="text-xs font-normal text-slate-500">Days</span></div>
+                </div>
+            </div>
+
+            <div class="bg-white dark:bg-slate-800/90 rounded-2xl p-3.5 border border-slate-200/80 dark:border-slate-700/80 shadow-sm flex items-center gap-3">
+                <div class="w-10 h-10 rounded-xl bg-blue-100 dark:bg-blue-950/60 text-blue-600 dark:text-blue-400 flex items-center justify-center text-lg font-bold">
+                    <i class="fa-solid fa-earth-europe"></i>
+                </div>
+                <div>
+                    <div class="text-xs text-slate-500 dark:text-slate-400 font-medium">造訪國家數</div>
+                    <div class="text-lg font-black text-slate-800 dark:text-white">16 <span class="text-xs font-normal text-slate-500">Countries</span></div>
+                </div>
+            </div>
+
+            <div class="bg-white dark:bg-slate-800/90 rounded-2xl p-3.5 border border-slate-200/80 dark:border-slate-700/80 shadow-sm flex items-center gap-3">
+                <div class="w-10 h-10 rounded-xl bg-purple-100 dark:bg-purple-950/60 text-purple-600 dark:text-purple-400 flex items-center justify-center text-lg font-bold">
+                    <i class="fa-solid fa-bus-simple"></i>
+                </div>
+                <div>
+                    <div class="text-xs text-slate-500 dark:text-slate-400 font-medium">跨國/城際交通</div>
+                    <div class="text-lg font-black text-slate-800 dark:text-white">28 <span class="text-xs font-normal text-slate-500">Rides</span></div>
+                </div>
+            </div>
+
+            <div class="bg-white dark:bg-slate-800/90 rounded-2xl p-3.5 border border-slate-200/80 dark:border-slate-700/80 shadow-sm flex items-center gap-3">
+                <div class="w-10 h-10 rounded-xl bg-amber-100 dark:bg-amber-950/60 text-amber-600 dark:text-amber-400 flex items-center justify-center text-lg font-bold">
+                    <i class="fa-solid fa-bed"></i>
+                </div>
+                <div>
+                    <div class="text-xs text-slate-500 dark:text-slate-400 font-medium">入住青旅/住宿</div>
+                    <div class="text-lg font-black text-slate-800 dark:text-white">26 <span class="text-xs font-normal text-slate-500">Spots</span></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Filter Status Bar -->
+        <div id="filterStatusBar" class="flex flex-wrap items-center justify-between gap-2 mb-4 bg-emerald-50 dark:bg-emerald-950/40 p-3 rounded-xl border border-emerald-200/60 dark:border-emerald-800/50">
+            <div class="flex items-center gap-2 text-xs text-emerald-800 dark:text-emerald-300">
+                <i class="fa-solid fa-filter"></i>
+                <span>正在顯示: <strong id="filterCurrentText">全 72 天行程</strong></span>
+                <span id="filterCountBadge" class="bg-emerald-200 dark:bg-emerald-800 text-emerald-900 dark:text-emerald-100 px-2 py-0.5 rounded-full font-bold text-[11px]">72 天</span>
+            </div>
+            <button onclick="resetFilters()" class="text-xs font-medium text-emerald-700 dark:text-emerald-400 hover:underline flex items-center gap-1">
+                <i class="fa-solid fa-rotate-left"></i> 重設所有篩選
+            </button>
+        </div>
+
+        <!-- Main Itinerary Grid / Timeline -->
+        <div id="itineraryContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+            <!-- Dynamically populated cards -->
+        </div>
+
+        <!-- Empty Search Result -->
+        <div id="emptyResultState" class="hidden text-center py-16 bg-white dark:bg-slate-800 rounded-3xl border border-slate-200 dark:border-slate-700 my-6">
+            <div class="w-16 h-16 bg-slate-100 dark:bg-slate-700 text-slate-400 rounded-full flex items-center justify-center mx-auto mb-4 text-2xl">
+                <i class="fa-solid fa-map-location-dot"></i>
+            </div>
+            <h3 class="text-base font-bold text-slate-700 dark:text-slate-200">找不到符合條件的行程景點</h3>
+            <p class="text-xs text-slate-500 mt-1">請嘗試搜尋其他關鍵字或切換國家分類</p>
+            <button onclick="resetFilters()" class="mt-4 px-4 py-2 bg-emerald-600 text-white rounded-xl text-xs font-semibold hover:bg-emerald-700 transition">
+                查看全部行程
+            </button>
+        </div>
+
+    </main>
+
+    <!-- Mobile Bottom Navigation Bar -->
+    <div class="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-white/95 dark:bg-slate-900/95 backdrop-blur-md border-t border-slate-200 dark:border-slate-800 px-4 py-2 flex items-center justify-around">
+        <button onclick="resetFilters(); window.scrollTo({top:0, behavior:'smooth'});" class="flex flex-col items-center text-emerald-600 dark:text-emerald-400">
+            <i class="fa-solid fa-compass text-lg"></i>
+            <span class="text-[10px] mt-0.5 font-medium">首頁行程</span>
+        </button>
+        <button onclick="toggleBookmarksFilter()" class="flex flex-col items-center text-slate-600 dark:text-slate-400">
+            <i class="fa-solid fa-heart text-lg"></i>
+            <span class="text-[10px] mt-0.5 font-medium">我的收藏</span>
+        </button>
+        <button onclick="scrollToToday()" class="flex flex-col items-center text-slate-600 dark:text-slate-400">
+            <i class="fa-solid fa-location-crosshairs text-lg"></i>
+            <span class="text-[10px] mt-0.5 font-medium">快速定位</span>
+        </button>
+        <button onclick="window.print()" class="flex flex-col items-center text-slate-600 dark:text-slate-400">
+            <i class="fa-solid fa-print text-lg"></i>
+            <span class="text-[10px] mt-0.5 font-medium">友善列印</span>
+        </button>
+    </div>
+
+    <script>
+        const itineraryData = [
+            {
+                day: 1,
+                date: "2026-09-01",
+                displayDate: "1 Sept 2026",
+                country: "Greece",
+                countryZh: "希臘",
+                flag: "🇬🇷",
+                city: "香港 ➔ 雅典 Athens",
+                weather: { temp: "24°C - 31°C", sunrise: "06:58", sunset: "19:58" },
+                attractions: [
+                    { name: "香港國際機場 (HKG)", note: "09:20 起飛 (TK171)" },
+                    { name: "伊斯坦堡機場 (IST)", note: "轉機 (Turkish Airlines)" },
+                    { name: "雅典國際機場 (ATH)", note: "20:30 抵達 (TK1845)" }
+                ],
+                transport: {
+                    type: "Flight",
+                    schedule: "09:20 – 20:30",
+                    operator: "Turkish Airlines (TK171 > IST > TK1845)",
+                    fromName: "香港國際機場 Hong Kong Airport",
+                    fromQuery: "Hong Kong International Airport",
+                    toName: "雅典國際機場 Athens Airport",
+                    toQuery: "Athens International Airport"
+                },
+                accommodation: {
+                    name: "Yellowsquare Athens (Official)",
+                    query: "Yellowsquare Athens"
+                },
+                references: []
+            },
+            {
+                day: 2,
+                date: "2026-09-02",
+                displayDate: "2 Sept 2026",
+                country: "Greece",
+                countryZh: "希臘",
+                flag: "🇬🇷",
+                city: "雅典 Athens",
+                weather: { temp: "23°C - 30°C", sunrise: "06:59", sunset: "19:57" },
+                attractions: [
+                    { name: "憲法廣場 Syntagma Square", note: "觀看衛兵交接儀式" },
+                    { name: "雅典國立花園 National Garden", note: "綠蔭散步體驗" },
+                    { name: "奧林匹亞宙斯神廟 Temple of Olympian Zeus", note: "古希臘巨大神廟遺跡" },
+                    { name: "帕那辛納克體育場 Panathenaic Stadium", note: "現代奧運會發源地全大理石體育場" },
+                    { name: "利卡維多斯山丘 Mount Lycabettus", note: "俯瞰雅典全市壯麗夕陽與夜景" }
+                ],
+                accommodation: { name: "Yellowsquare Athens (Official)", query: "Yellowsquare Athens" },
+                references: []
+            },
+            {
+                day: 3,
+                date: "2026-09-03",
+                displayDate: "3 Sept 2026",
+                country: "Greece",
+                countryZh: "希臘",
+                flag: "🇬🇷",
+                city: "德爾菲 Delphi (雅典出發)",
+                weather: { temp: "21°C - 29°C", sunrise: "07:00", sunset: "19:55" },
+                attractions: [
+                    { name: "德爾菲遺址 Delphi Archaeological Site", note: "Klook 一日遊: 世界之臍、阿波羅神殿" },
+                    { name: "德爾菲考古博物館 Archaeological Museum of Delphi", note: "珍藏古希臘文物品" }
+                ],
+                accommodation: { name: "Yellowsquare Athens (Official)", query: "Yellowsquare Athens" },
+                references: [{ title: "Klook 德爾菲一日遊參考", url: "https://www.klook.com" }]
+            },
+            {
+                day: 4,
+                date: "2026-09-04",
+                displayDate: "4 Sept 2026",
+                country: "Greece",
+                countryZh: "希臘",
+                flag: "🇬🇷",
+                city: "雅典 Athens",
+                weather: { temp: "22°C - 30°C", sunrise: "07:01", sunset: "19:54" },
+                attractions: [
+                    { name: "雅典衛城 Acropolis of Athens", note: "帕德嫩神廟、伊克昭神殿" },
+                    { name: "衛城博物館 Acropolis Museum", note: "玻璃地板直視考古遺跡" },
+                    { name: "古雅典阿哥拉 Ancient Agora of Athens", note: "阿塔羅斯柱廊與火神廟" },
+                    { name: "哈德良圖書館 Hadrian's Library", note: "古羅馬時期建築遺構" },
+                    { name: "菲洛帕波斯山丘 Philopappos Hill", note: "拍攝衛城全景最佳高點" }
+                ],
+                accommodation: { name: "Yellowsquare Athens (Official)", query: "Yellowsquare Athens" },
+                references: []
+            },
+            {
+                day: 5,
+                date: "2026-09-05",
+                displayDate: "5 Sept 2026",
+                country: "Greece",
+                countryZh: "希臘",
+                flag: "🇬🇷",
+                city: "雅典 ➔ 梅特歐拉 Meteora",
+                weather: { temp: "19°C - 28°C", sunrise: "07:02", sunset: "19:52" },
+                attractions: [
+                    { name: "聖史蒂芬女修道院 Holy Monastery of St. Stephen", note: "平緩易達修道院" },
+                    { name: "聖特里尼蒂修道院 Monastery of Holy Trinity", note: "007電影取景懸崖修道院" }
+                ],
+                transport: {
+                    type: "Bus",
+                    schedule: "06:30 – 11:45",
+                    operator: "Yperastiko Ktel Trikalon S.A.",
+                    fromName: "Athens Ktel Liosion Bus Station",
+                    fromQuery: "Ktel Liosion Bus Station Athens",
+                    toName: "Kalambaka Bus Station",
+                    toQuery: "Kalambaka Bus Station"
+                },
+                accommodation: { name: "Meteora Central Hostel", query: "Meteora Central Hostel Kalambaka" },
+                references: [
+                    { title: "Wilhelm Chang 天空之城攻略", url: "https://www.wilhelmchang.com/zh/meteora/" },
+                    { title: "Rome2Rio 交通路線參考", url: "https://www.rome2rio.com/map/Athens/Meteora?route=Bus&departureDate=2026-09-05&accom_comparison=true" }
+                ]
+            },
+            {
+                day: 6,
+                date: "2026-09-06",
+                displayDate: "6 Sept 2026",
+                country: "Greece",
+                countryZh: "希臘",
+                flag: "🇬🇷",
+                city: "梅特歐拉 Meteora",
+                weather: { temp: "18°C - 27°C", sunrise: "07:02", sunset: "19:51" },
+                attractions: [
+                    { name: "大梅特歐拉修道院 Holy Monastery of Great Meteoron", note: "最大最古老巨石修道院" },
+                    { name: "瓦爾拉姆修道院 Holy Monastery of Varlaam", note: "精美壁畫與博物館" },
+                    { name: "魯薩努女修道院 Holy Monastery of Roussanou", note: "優雅懸崖花園修道院" },
+                    { name: "聖尼古拉修道院 Holy Monastery of St. Nicholas Anapausas", note: "入口第一座修道院" }
+                ],
+                accommodation: { name: "Meteora Central Hostel", query: "Meteora Central Hostel Kalambaka" },
+                references: [{ title: "Wilhelm Chang 梅特歐拉攻略", url: "https://www.wilhelmchang.com/zh/meteora/" }]
+            },
+            {
+                day: 7,
+                date: "2026-09-07",
+                displayDate: "7 Sept 2026",
+                country: "Albania",
+                countryZh: "阿爾巴尼亞",
+                flag: "🇦🇱",
+                city: "前往 吉諾卡斯特 Gjirokastër",
+                weather: { temp: "17°C - 28°C", sunrise: "06:15", sunset: "19:15" },
+                attractions: [
+                    { name: "吉諾卡斯特城堡 Gjirokastër Castle", note: "俯瞰千石之城老街全景" },
+                    { name: "斯肯杜利莊園 Skenduli House", note: "傳統鄂圖曼式古宅導覽" }
+                ],
+                transport: {
+                    type: "Bus",
+                    schedule: "跨國長途巴士/包車 (詳見攻略)",
+                    operator: "Regional Balkan Bus",
+                    fromName: "Kalambaka",
+                    fromQuery: "Kalambaka Train Station",
+                    toName: "Gjirokastër Bus Terminal",
+                    toQuery: "Gjirokastër Bus Station"
+                },
+                accommodation: { name: "Stone City Hostel", query: "Stone City Hostel Gjirokaster" },
+                references: [{ title: "Wilhelm Chang 吉諾卡斯特攻略", url: "https://www.wilhelmchang.com/zh/gjirokaster/" }]
+            },
+            {
+                day: 8,
+                date: "2026-09-08",
+                displayDate: "8 Sept 2026",
+                country: "Albania",
+                countryZh: "阿爾巴尼亞",
+                flag: "🇦🇱",
+                city: "前往 培拉特 Berat",
+                weather: { temp: "18°C - 29°C", sunrise: "06:16", sunset: "19:13" },
+                attractions: [
+                    { name: "培拉特城堡 Berat Castle", note: "千窗之城城堡高點" },
+                    { name: "曼加萊米區 Mangalem Quarter", note: "鄂圖曼老城區夢幻夜景" }
+                ],
+                transport: {
+                    type: "Bus",
+                    schedule: "08:30 – 11:30",
+                    operator: "Gjirafa Travel",
+                    fromName: "Gjirokastër Bus Terminal",
+                    fromQuery: "Gjirokastër Bus Station",
+                    toName: "Berat Bus Station",
+                    toQuery: "Berat Bus Terminal"
+                },
+                accommodation: { name: "Maya Hostel Berat", query: "Maya Hostel Berat" },
+                references: [
+                    { title: "Wilhelm Chang 培拉特攻略", url: "https://www.wilhelmchang.com/zh/berat/" },
+                    { title: "Gjirafa 巴士班次查詢", url: "https://travel.gjirafa.com/en/search-results/gjirokaster-to-berat/2026-09-08" }
+                ]
+            },
+            {
+                day: 9,
+                date: "2026-09-09",
+                displayDate: "9 Sept 2026",
+                country: "Albania",
+                countryZh: "阿爾巴尼亞",
+                flag: "🇦🇱",
+                city: "培拉特 Berat ➔ 地拉那 Tirana",
+                weather: { temp: "18°C - 28°C", sunrise: "06:17", sunset: "19:11" },
+                attractions: [
+                    { name: "曼加萊米區 Mangalem", note: "清晨陽光灑落的古老街巷" },
+                    { name: "戈里察區 Gorica Quarter", note: "跨越古橋欣賞河畔全景" }
+                ],
+                transport: {
+                    type: "Bus",
+                    schedule: "12:30 – 14:45",
+                    operator: "Gjirafa Travel",
+                    fromName: "Berat Bus Station",
+                    fromQuery: "Berat Bus Terminal",
+                    toName: "Tirana South and North Bus Terminal",
+                    toQuery: "Terminali i Autobusave të Veriut dhe Jugut Tirana"
+                },
+                accommodation: { name: "The Bearded Dad Hostel", query: "The Bearded Dad Hostel Tirana" },
+                references: [
+                    { title: "Wilhelm Chang 培拉特攻略", url: "https://www.wilhelmchang.com/zh/berat/" },
+                    { title: "Gjirafa 巴士班次查詢", url: "https://travel.gjirafa.com/en/search-results/berat-to-tirana/2026-09-09" }
+                ]
+            },
+            {
+                day: 10,
+                date: "2026-09-10",
+                displayDate: "10 Sept 2026",
+                country: "Albania",
+                countryZh: "阿爾巴尼亞",
+                flag: "🇦🇱",
+                city: "地拉那 Tirana",
+                weather: { temp: "17°C - 28°C", sunrise: "06:18", sunset: "19:09" },
+                attractions: [
+                    { name: "地拉那免費徒步導覽 Free Walking Tour", note: "市中心深度歷史講解" },
+                    { name: "斯堪德培廣場 Skanderbeg Square", note: "地拉那心臟地標" },
+                    { name: "Bunk'Art 1", note: "冷戰時期地底巨型防空碉堡博物館" },
+                    { name: "地拉那鐘樓 Clock Tower of Tirana", note: "俯瞰廣場景觀" },
+                    { name: "地拉那金字塔 Pyramid of Tirana", note: "極簡前衛地標建築" },
+                    { name: "Dajti Express 纜車", note: "登高俯瞰地拉那全景" }
+                ],
+                accommodation: { name: "The Bearded Dad Hostel", query: "The Bearded Dad Hostel Tirana" },
+                references: [{ title: "Wilhelm Chang 地拉那攻略", url: "https://www.wilhelmchang.com/zh/tirana/" }]
+            },
+            {
+                day: 11,
+                date: "2026-09-11",
+                displayDate: "11 Sept 2026",
+                country: "Albania",
+                countryZh: "阿爾巴尼亞",
+                flag: "🇦🇱",
+                city: "地拉那 ➔ 克魯亞 Kruje (一日遊)",
+                weather: { temp: "16°C - 27°C", sunrise: "06:19", sunset: "19:07" },
+                attractions: [
+                    { name: "克魯亞舊市集 Old Bazaar Kruje", note: "傳統工藝品與木造店舖" },
+                    { name: "克魯亞城堡 Kruja Castle", note: "抵抗鄂圖曼帝國古堡" },
+                    { name: "斯坎德培博物館 Skanderbeg Museum", note: "民族英雄歷史博物館" }
+                ],
+                accommodation: { name: "The Bearded Dad Hostel", query: "The Bearded Dad Hostel Tirana" },
+                references: [{ title: "TravelM 克魯亞景點攻略", url: "https://travelm.tw/kruja/" }]
+            },
+            {
+                day: 12,
+                date: "2026-09-12",
+                displayDate: "12 Sept 2026",
+                country: "North Macedonia",
+                countryZh: "北馬其頓",
+                flag: "🇲🇰",
+                city: "前往 奧赫里德 Ohrid",
+                weather: { temp: "14°C - 25°C", sunrise: "06:20", sunset: "19:05" },
+                attractions: [
+                    { name: "薩繆爾要塞 Samuel's Fortress", note: "俯瞰湖畔舊城城牆" },
+                    { name: "奧赫里德古代劇場 Ancient Theatre of Ohrid", note: "希臘化時期古劇場" }
+                ],
+                transport: {
+                    type: "Bus",
+                    schedule: "09:00 – 12:00",
+                    operator: "Gjirafa Travel / International Bus",
+                    fromName: "Tirana International Bus Terminal",
+                    fromQuery: "Tirana International Bus Terminal",
+                    toName: "Ohrid Bus Station",
+                    toQuery: "Ohrid Bus Station"
+                },
+                accommodation: { name: "Topencarov Guest House", query: "Topencarov Guest House Ohrid" },
+                references: [{ title: "Gjirafa 跨國巴士查詢", url: "https://travel.gjirafa.com/en/search-results/tirana-to-ohrid/2026-09-12" }]
+            },
+            {
+                day: 13,
+                date: "2026-09-13",
+                displayDate: "13 Sept 2026",
+                country: "North Macedonia",
+                countryZh: "北馬其頓",
+                flag: "🇲🇰",
+                city: "奧赫里德 Ohrid",
+                weather: { temp: "13°C - 24°C", sunrise: "06:21", sunset: "19:04" },
+                attractions: [
+                    { name: "神學家聖約翰教堂 Church of St. John at Kaneo", note: "經典湖畔懸崖明信片場景" },
+                    { name: "聖瑙姆修道院 Monastery of Saint Naum", note: "搭船造訪清澈泉水與孔雀" },
+                    { name: "聖索菲亞教堂 Church of St. Sophia", note: "拜占庭壁畫寶庫" },
+                    { name: "舊巴扎步行街 Old Bazaar Ohrid", note: "品嚐當地鱒魚與手工珍珠" }
+                ],
+                accommodation: { name: "Topencarov Guest House", query: "Topencarov Guest House Ohrid" },
+                references: []
+            },
+            {
+                day: 14,
+                date: "2026-09-14",
+                displayDate: "14 Sept 2026",
+                country: "North Macedonia",
+                countryZh: "北馬其頓",
+                flag: "🇲🇰",
+                city: "前往 史高比耶 Skopje",
+                weather: { temp: "14°C - 25°C", sunrise: "06:22", sunset: "19:02" },
+                attractions: [
+                    { name: "石橋 Stone Bridge", note: "連接新舊城區地標" },
+                    { name: "馬其頓廣場 Macedonia Square", note: "巨型亞歷山大大帝雕像" },
+                    { name: "舊市集 Old Bazaar Skopje", note: "巴爾幹最大異國風情舊城區" }
+                ],
+                transport: {
+                    type: "Bus",
+                    schedule: "09:30 – 12:30",
+                    operator: "Gjirafa / Intercity Bus",
+                    fromName: "Ohrid Bus Station",
+                    fromQuery: "Ohrid Bus Station",
+                    toName: "Skopje Central Bus Station",
+                    toQuery: "Skopje Central Bus Station"
+                },
+                accommodation: { name: "S Apartment Skopje", query: "S Apartment Skopje" },
+                references: [{ title: "Gjirafa 巴士班次查詢", url: "https://travel.gjirafa.com/en/search-results/ohrid-to-skopje/2026-09-14" }]
+            },
+            {
+                day: 15,
+                date: "2026-09-15",
+                displayDate: "15 Sept 2026",
+                country: "Kosovo",
+                countryZh: "科索沃",
+                flag: "🇽🇰",
+                city: "前往 普里斯提納 Prishtina",
+                weather: { temp: "12°C - 23°C", sunrise: "06:23", sunset: "19:00" },
+                attractions: [
+                    { name: "科索沃國家圖書館 National Library of Kosovo", note: "前衛奇特金屬網格建築" },
+                    { name: "NEWBORN 新生紀念碑 & 女英雄紀念碑", note: "象徵獨立精神地標" },
+                    { name: "斯坎德培廣場 Skanderbeg Square Prishtina", note: "市中心徒步大道" },
+                    { name: "征服者穆罕默德清真寺 Imperial Mosque", note: "鄂圖曼古老清真寺" }
+                ],
+                transport: {
+                    type: "Bus",
+                    schedule: "10:10 – 12:10",
+                    operator: "Gjirafa / Cross-border Bus",
+                    fromName: "Skopje Central Bus Station",
+                    fromQuery: "Skopje Central Bus Station",
+                    toName: "Prishtina Bus Station",
+                    toQuery: "Prishtina Bus Station"
+                },
+                accommodation: { name: "Modern Flat in Prishtina Centre", query: "Modern Flat in Prishtina Centre" },
+                references: [{ title: "Gjirafa 巴士班次查詢", url: "https://travel.gjirafa.com/en/search-results/skopje-to-prishtina/2026-09-15" }]
+            },
+            {
+                day: 16,
+                date: "2026-09-16",
+                displayDate: "16 Sept 2026",
+                country: "Kosovo",
+                countryZh: "科索沃 ➔ 黑山",
+                flag: "🇽🇰",
+                city: "普里斯提納 ➔ 夜車前往 科托爾 Kotor",
+                weather: { temp: "13°C - 24°C", sunrise: "06:24", sunset: "18:58" },
+                attractions: [
+                    { name: "普里斯提納市區漫遊", note: "母特蕾莎大教堂觀景塔" },
+                    { name: "咖啡館體驗", note: "體驗科索沃高品質平價 Espresso" }
+                ],
+                transport: {
+                    type: "NightBus",
+                    schedule: "21:00 – 05:30 (+1)",
+                    operator: "Overnight International Bus",
+                    fromName: "Prishtina Bus Station",
+                    fromQuery: "Prishtina Bus Station",
+                    toName: "Kotor Central Bus Station",
+                    toQuery: "Kotor Bus Station"
+                },
+                accommodation: { name: "夜宿跨國長途巴士 (Overnight Bus)", query: "Prishtina Bus Station" },
+                references: [{ title: "Gjirafa 夜巴士班次查詢", url: "https://travel.gjirafa.com/en/search-results/prishtina-to-kotor/2026-09-16" }]
+            },
+            {
+                day: 17,
+                date: "2026-09-17",
+                displayDate: "17 Sept 2026",
+                country: "Montenegro",
+                countryZh: "黑山",
+                flag: "🇲🇪",
+                city: "科托爾 Kotor",
+                weather: { temp: "16°C - 26°C", sunrise: "06:25", sunset: "18:56" },
+                attractions: [
+                    { name: "科托爾主教座堂 St. Tryphon Cathedral", note: "雙塔中世紀主教座堂" },
+                    { name: "聖盧克教堂 Church of St. Luke", note: "雙祭壇歷史典範" },
+                    { name: "武器廣場 Arms Square", note: "老城核心地標鐘樓" },
+                    { name: "科托爾堡壘 Castle of San Giovanni", note: "徒步攀登梯道俯瞰峽灣日落" }
+                ],
+                accommodation: { name: "普帕旅舍 Hostel Pupa", query: "Hostel Pupa Kotor" },
+                references: [{ title: "Wilhelm Chang 科托爾攻略", url: "https://www.wilhelmchang.com/zh/kotor/" }]
+            },
+            {
+                day: 18,
+                date: "2026-09-18",
+                displayDate: "18 Sept 2026",
+                country: "Montenegro",
+                countryZh: "黑山",
+                flag: "🇲🇪",
+                city: "科托爾 Kotor – Grand Montenegro Tour",
+                weather: { temp: "15°C - 25°C", sunrise: "06:26", sunset: "18:54" },
+                attractions: [
+                    { name: "Njegusi 蛇形山路俯瞰", note: "俯瞰峽灣與品嚐煙燻火腿" },
+                    { name: "洛夫琴國家公園 Lovćen National Park", note: "涅戈什陵寢" },
+                    { name: "里耶卡克爾諾耶維查 Rijeka Crnojevića", note: "黑山亞馬遜河彎道" },
+                    { name: "布德瓦老城 Budva Old Town", note: "亞得里亞海濱度假勝地" }
+                ],
+                accommodation: { name: "普帕旅舍 Hostel Pupa", query: "Hostel Pupa Kotor" },
+                references: [{ title: "360 Monte Grand Tour 詳情", url: "https://360monte.me/great-montenegro-tour/" }]
+            },
+            {
+                day: 19,
+                date: "2026-09-19",
+                displayDate: "19 Sept 2026",
+                country: "Montenegro",
+                countryZh: "黑山",
+                flag: "🇲🇪",
+                city: "科托爾 Kotor – 杜米托爾國家公園 Tour",
+                weather: { temp: "12°C - 22°C", sunrise: "06:27", sunset: "18:52" },
+                attractions: [
+                    { name: "奧斯特洛修道院 Ostrog Monastery", note: "嵌在懸崖峭壁上的聖地" },
+                    { name: "塔拉河大峽谷 Tara River Canyon", note: "歐洲最深峽谷與大橋" },
+                    { name: "黑湖 Black Lake (Crno Jezero)", note: "杜米托爾高山松林黑湖" }
+                ],
+                accommodation: { name: "普帕旅舍 Hostel Pupa", query: "Hostel Pupa Kotor" },
+                references: [{ title: "360 Monte 杜米托爾一日遊", url: "https://360monte.me/north-montenegro-durmitor-tara-ostrog-tour/" }]
+            },
+            {
+                day: 20,
+                date: "2026-09-20",
+                displayDate: "20 Sept 2026",
+                country: "Croatia",
+                countryZh: "克羅地亞",
+                flag: "🇭🇷",
+                city: "前往 杜布羅夫尼克 Dubrovnik",
+                weather: { temp: "17°C - 25°C", sunrise: "06:28", sunset: "18:50" },
+                attractions: [
+                    { name: "Buza Gate 城牆逆時針漫步", note: "冰與火之歌君臨城古城牆" },
+                    { name: "史特拉敦大道 Stradun", note: "光亮大理石老街主軸" },
+                    { name: "杜布羅夫尼克鐘塔 & 總督府 Rector's Palace", note: "哥德哥特文藝復興官邸" },
+                    { name: "耶穌會階梯 Jesuit Staircase", note: "權力遊戲 Shame 階梯" },
+                    { name: "杜布羅夫尼克纜車 Dubrovnik Cable Car", note: "Srd 山頂欣賞海岸夕陽夜景" }
+                ],
+                transport: {
+                    type: "Bus",
+                    schedule: "08:30 – 10:45",
+                    operator: "Arriva / Croatia Bus",
+                    fromName: "Kotor Bus Station",
+                    fromQuery: "Kotor Bus Station",
+                    toName: "Dubrovnik Main Bus Station",
+                    toQuery: "Dubrovnik Main Bus Station"
+                },
+                accommodation: { name: "Old Town Hostel Dubrovnik", query: "Old Town Hostel Dubrovnik" },
+                references: [{ title: "Wilhelm Chang 杜布羅夫尼克攻略", url: "https://www.wilhelmchang.com/zh/dubrovnik/" }]
+            },
+            {
+                day: 21,
+                date: "2026-09-21",
+                displayDate: "21 Sept 2026",
+                country: "Bosnia and Herzegovina",
+                countryZh: "波斯尼亞",
+                flag: "🇧🇦",
+                city: "前往 莫斯塔爾 Mostar",
+                weather: { temp: "14°C - 26°C", sunrise: "06:29", sunset: "18:48" },
+                attractions: [
+                    { name: "莫斯塔爾老街 Stari Grad", note: "充滿鄂圖曼色彩石板街" },
+                    { name: "莫斯塔爾老橋 Stari Most", note: "世界遺產跳水名橋" },
+                    { name: "布拉蓋修道院 Blagaj Tekke (Optional)", note: "特納河源頭懸崖修道院" }
+                ],
+                transport: {
+                    type: "Bus",
+                    schedule: "08:00 – 12:10",
+                    operator: "Centrotrans",
+                    fromName: "Dubrovnik Main Bus Station",
+                    fromQuery: "Dubrovnik Main Bus Station",
+                    toName: "Mostar East Bus Station",
+                    toQuery: "Mostar Bus Station"
+                },
+                accommodation: { name: "Apartments City Center Mostar", query: "Apartments City Center Mostar" },
+                references: [{ title: "Centrotrans 巴士預訂", url: "https://centrotrans.com/en/booking/search/246/28/1/2026-09-21" }]
+            },
+            {
+                day: 22,
+                date: "2026-09-22",
+                displayDate: "22 Sept 2026",
+                country: "Croatia",
+                countryZh: "克羅地亞",
+                flag: "🇭🇷",
+                city: "前往 斯普利特 Split",
+                weather: { temp: "16°C - 24°C", sunrise: "06:31", sunset: "18:46" },
+                attractions: [
+                    { name: "戴克里先皇宮 Diocletian's Palace", note: "古羅馬皇帝宮殿遺跡" },
+                    { name: "斯普利特主教座堂與鐘樓 Cathedral of St. Domnius", note: "登頂俯瞰濱海大道" },
+                    { name: "戴克里先宮地窖 Substructure of Diocletian's Palace", note: "地下市場與遺址" },
+                    { name: "老城區 Riva 濱海大道", note: "海邊散步與咖啡文化" }
+                ],
+                transport: {
+                    type: "Bus",
+                    schedule: "06:45 – 10:40",
+                    operator: "FlixBus",
+                    fromName: "Mostar Bus Station",
+                    fromQuery: "Mostar Bus Station",
+                    toName: "Split Bus Station",
+                    toQuery: "Split Bus Station"
+                },
+                accommodation: { name: "Split Backpackers", query: "Split Backpackers Hostel" },
+                references: [{ title: "Wilhelm Chang 斯普利特攻略", url: "https://www.wilhelmchang.com/zh/split/" }]
+            },
+            {
+                day: 23,
+                date: "2026-09-23",
+                displayDate: "23 Sept 2026",
+                country: "Croatia",
+                countryZh: "克羅地亞",
+                flag: "🇭🇷",
+                city: "前往 札達爾 Zadar",
+                weather: { temp: "15°C - 23°C", sunrise: "06:32", sunset: "18:44" },
+                attractions: [
+                    { name: "札達爾主教座堂 Zadar Cathedral", note: "達爾馬提亞最大教堂" },
+                    { name: "聖多那教堂 Church of St. Donatus", note: "圓柱形前羅曼式建築" },
+                    { name: "海風琴 Sea Organ & 太陽致敬 Greeting to the Sun", note: "海浪演奏的音樂與夕陽光影" }
+                ],
+                transport: {
+                    type: "Bus",
+                    schedule: "10:15 – 12:30",
+                    operator: "FlixBus",
+                    fromName: "Split Bus Station",
+                    fromQuery: "Split Bus Station",
+                    toName: "Zadar Bus Station",
+                    toQuery: "Zadar Bus Station"
+                },
+                accommodation: { name: "Downtown Boutique Hostel", query: "Downtown Boutique Hostel Zadar" },
+                references: []
+            },
+            {
+                day: 24,
+                date: "2026-09-24",
+                displayDate: "24 Sept 2026",
+                country: "Croatia",
+                countryZh: "克羅地亞",
+                flag: "🇭🇷",
+                city: "十六湖國家公園 Plitvice Lakes (Day Tour)",
+                weather: { temp: "12°C - 20°C", sunrise: "06:33", sunset: "18:42" },
+                attractions: [
+                    { name: "普利特維采湖群國家公園 Plitvice Lakes National Park", note: "上湖區與下湖區瀑布群木棧道" },
+                    { name: "大瀑布 Veliki Slap", note: "克羅地亞落差最大瀑布" }
+                ],
+                accommodation: { name: "Downtown Boutique Hostel", query: "Downtown Boutique Hostel Zadar" },
+                references: []
+            },
+            {
+                day: 25,
+                date: "2026-09-25",
+                displayDate: "25 Sept 2026",
+                country: "Croatia",
+                countryZh: "克羅地亞",
+                flag: "🇭🇷",
+                city: "前往 薩格勒布 Zagreb",
+                weather: { temp: "11°C - 21°C", sunrise: "06:34", sunset: "18:40" },
+                attractions: [
+                    { name: "失戀博物館 Museum of Broken Relationships", note: "創意幽默珍藏展" },
+                    { name: "薩格勒布舊城漫步", note: "聖馬可教堂繽紛屋頂與洛特爾薩克塔" }
+                ],
+                transport: {
+                    type: "Bus",
+                    schedule: "09:30 – 13:00",
+                    operator: "Arriva / Intercity Bus",
+                    fromName: "Zadar Bus Station",
+                    fromQuery: "Zadar Bus Station",
+                    toName: "Zagreb Central Bus Station",
+                    toQuery: "Zagreb Bus Station"
+                },
+                accommodation: { name: "Hostel Temza Zagreb", query: "Hostel Temza Zagreb" },
+                references: []
+            },
+            {
+                day: 26,
+                date: "2026-09-26",
+                displayDate: "26 Sept 2026",
+                country: "Slovenia",
+                countryZh: "斯洛文尼亞",
+                flag: "🇸🇮",
+                city: "前往 盧布爾雅那 Ljubljana",
+                weather: { temp: "10°C - 19°C", sunrise: "06:36", sunset: "18:38" },
+                attractions: [
+                    { name: "盧比安納城堡 Ljubljana Castle", note: "纜車登頂俯瞰綠意首都" },
+                    { name: "聖尼各老主教座堂 Ljubljana Cathedral", note: "浮雕銅門與精美壁畫" },
+                    { name: "龍橋 Dragon Bridge & 屠夫橋 & 三重橋 Triple Bridge", note: "大師普雷契尼克經典橋樑" },
+                    { name: "普雷雪倫廣場 Prešeren Square", note: "粉紅聖母感應教堂與市中心" }
+                ],
+                transport: {
+                    type: "Bus",
+                    schedule: "10:15 – 12:45",
+                    operator: "FlixBus",
+                    fromName: "Zagreb Bus Station",
+                    fromQuery: "Zagreb Bus Station",
+                    toName: "Ljubljana Central Bus Station",
+                    toQuery: "Ljubljana Central Bus Station"
+                },
+                accommodation: { name: "ibis Styles Ljubljana Hostel - The Fuzzy Log", query: "ibis Styles Ljubljana Hostel Fuzzy Log" },
+                references: []
+            },
+            {
+                day: 27,
+                date: "2026-09-27",
+                displayDate: "27 Sept 2026",
+                country: "Slovenia",
+                countryZh: "斯洛文尼亞",
+                flag: "🇸🇮",
+                city: "波茵湖 Lake Bohinj 日遊",
+                weather: { temp: "9°C - 18°C", sunrise: "06:37", sunset: "18:36" },
+                attractions: [
+                    { name: "波茵湖 Lake Bohinj", note: "寧靜純淨阿爾卑斯冰河湖" },
+                    { name: "逆時針環湖步道", note: "自然森林漫步" },
+                    { name: "施洗者聖約翰教堂 Church of St. John the Baptist", note: "湖畔古老石橋教堂" },
+                    { name: "烏坎茨 Ukanc", note: "湖西岸秘境" },
+                    { name: "沃格爾纜車 Vogel Cable Car", note: "登高眺望特里格拉夫國家公園群峰" }
+                ],
+                accommodation: { name: "ibis Styles Ljubljana Hostel - The Fuzzy Log", query: "ibis Styles Ljubljana Hostel Fuzzy Log" },
+                references: []
+            },
+            {
+                day: 28,
+                date: "2026-09-28",
+                displayDate: "28 Sept 2026",
+                country: "Slovenia",
+                countryZh: "斯洛文尼亞",
+                flag: "🇸🇮",
+                city: "什科茨揚洞 Škocjan Caves",
+                weather: { temp: "10°C - 18°C", sunrise: "06:38", sunset: "18:34" },
+                attractions: [
+                    { name: "什科茨揚洞 Škocjan Caves", note: "聯合國世界遺產巨大地底峽谷與地下河" }
+                ],
+                accommodation: { name: "ibis Styles Ljubljana Hostel - The Fuzzy Log", query: "ibis Styles Ljubljana Hostel Fuzzy Log" },
+                references: []
+            },
+            {
+                day: 29,
+                date: "2026-09-29",
+                displayDate: "29 Sept 2026",
+                country: "Austria",
+                countryZh: "奧地利",
+                flag: "🇦🇹",
+                city: "前往 維也納 Vienna",
+                weather: { temp: "10°C - 18°C", sunrise: "06:40", sunset: "18:32" },
+                attractions: [
+                    { name: "卡爾教堂 St. Charles Church (Karlskirchen)", note: "巴洛克圓頂與水池倒影" },
+                    { name: "彼得教堂 St. Peter's Church", note: "維也納內城區金碧輝煌教堂" }
+                ],
+                transport: {
+                    type: "Bus",
+                    schedule: "10:40 – 15:35",
+                    operator: "FlixBus",
+                    fromName: "Ljubljana Central Bus Station",
+                    fromQuery: "Ljubljana Bus Station",
+                    toName: "Vienna Erdberg (VIB)",
+                    toQuery: "Vienna Erdberg Bus Station"
+                },
+                accommodation: { name: "Vienna Boutique Hostel", query: "Vienna Boutique Hostel" },
+                references: []
+            },
+            {
+                day: 30,
+                date: "2026-09-30",
+                displayDate: "30 Sept 2026",
+                country: "Austria",
+                countryZh: "奧地利",
+                flag: "🇦🇹",
+                city: "維也納 Vienna",
+                weather: { temp: "9°C - 17°C", sunrise: "06:41", sunset: "18:30" },
+                attractions: [
+                    { name: "美泉宮 Schönbrunn Palace", note: "哈布斯堡夏宮與後花園凱旋門" },
+                    { name: "霍夫堡皇宮 Hofburg Palace", note: "冬宮、茜茜公主博物館" },
+                    { name: "奧地利國家圖書館 Austrian National Library", note: "世界最美巴洛克圖書館大廳" }
+                ],
+                accommodation: { name: "Vienna Boutique Hostel", query: "Vienna Boutique Hostel" },
+                references: []
+            },
+            {
+                day: 31,
+                date: "2026-10-01",
+                displayDate: "1 Oct 2026",
+                country: "Austria",
+                countryZh: "奧地利",
+                flag: "🇦🇹",
+                city: "維也納 Vienna",
+                weather: { temp: "9°C - 16°C", sunrise: "06:43", sunset: "18:28" },
+                attractions: [
+                    { name: "美景宮 Belvedere Palace", note: "克林姆名畫《吻》典藏地" },
+                    { name: "奧地利國會大廈 Austrian Parliament", note: "希臘復興式建築與雅典娜噴泉" },
+                    { name: "維也納市政廳 Vienna City Hall", note: "哥德式宏偉建築" },
+                    { name: "維也納國家歌劇院 Vienna State Opera", note: "音樂之都經典殿堂" },
+                    { name: "百水公寓 Hundertwasserhaus", note: "奇幻色彩童話建築" }
+                ],
+                accommodation: { name: "Vienna Boutique Hostel", query: "Vienna Boutique Hostel" },
+                references: []
+            },
+            {
+                day: 32,
+                date: "2026-10-02",
+                displayDate: "2 Oct 2026",
+                country: "Austria",
+                countryZh: "奧地利",
+                flag: "🇦🇹",
+                city: "前往 哈修塔特 Hallstatt",
+                weather: { temp: "7°C - 15°C", sunrise: "06:44", sunset: "18:26" },
+                attractions: [
+                    { name: "哈修塔特鹽礦 Salzwelten Hallstatt", note: "世界最古老鹽礦木滑梯" },
+                    { name: "Hallstatt 基督教路德教堂", note: "湖畔明信片地標尖塔" },
+                    { name: "Hallstatt Skywalk 觀景台", note: "懸空俯瞰哈修塔特湖全景" }
+                ],
+                transport: {
+                    type: "Train",
+                    schedule: "07:45 – 10:59",
+                    operator: "ÖBB Train",
+                    fromName: "Vienna Central Station (Wien Hbf)",
+                    fromQuery: "Wien Hbf",
+                    toName: "Hallstatt Bahnhof / Obertraun",
+                    toQuery: "Hallstatt Station"
+                },
+                accommodation: { name: "Haus Alpenrose Obertraun", query: "Haus Alpenrose Obertraun" },
+                references: []
+            },
+            {
+                day: 33,
+                date: "2026-10-03",
+                displayDate: "3 Oct 2026",
+                country: "Austria",
+                countryZh: "奧地利",
+                flag: "🇦🇹",
+                city: "哈修塔特 / 達赫斯坦",
+                weather: { temp: "6°C - 14°C", sunrise: "06:46", sunset: "18:24" },
+                attractions: [
+                    { name: "五指眺望台 5 Fingers Viewing Platform", note: "達赫斯坦山脈驚險懸空觀景台" },
+                    { name: "冰洞 Ice Cave Krippenstein", note: "巨大天然冰川地底溶洞" }
+                ],
+                accommodation: { name: "Haus Alpenrose Obertraun", query: "Haus Alpenrose Obertraun" },
+                references: []
+            },
+            {
+                day: 34,
+                date: "2026-10-04",
+                displayDate: "4 Oct 2026",
+                country: "Austria",
+                countryZh: "奧地利",
+                flag: "🇦🇹",
+                city: "前往 格拉茲 Graz",
+                weather: { temp: "8°C - 16°C", sunrise: "06:47", sunset: "18:22" },
+                attractions: [
+                    { name: "埃森博格城堡 Schloss Eggenberg", note: "孔雀花園與巴洛克宮殿" },
+                    { name: "格拉茨城堡山 Schlossberg & 鐘塔 Uhrturm", note: "俯瞰格拉茨紅屋頂" },
+                    { name: "格拉茨主廣場 Graz Hauptplatz", note: "熱鬧市集與古典建築" },
+                    { name: "格拉茨州政廳 Landhaus", note: "文藝復興風格庭院" }
+                ],
+                transport: {
+                    type: "Train",
+                    schedule: "10:28 – 13:15",
+                    operator: "ÖBB Train",
+                    fromName: "Hallstatt / Stainach-Irdning",
+                    fromQuery: "Hallstatt Station",
+                    toName: "Graz Hauptbahnhof",
+                    toQuery: "Graz Hbf"
+                },
+                accommodation: { name: "Chrizz Rooms Graz", query: "Chrizz Rooms Graz" },
+                references: []
+            },
+            {
+                day: 35,
+                date: "2026-10-05",
+                displayDate: "5 Oct 2026",
+                country: "Hungary",
+                countryZh: "匈牙利",
+                flag: "🇭🇺",
+                city: "前往 布達佩斯 Budapest",
+                weather: { temp: "9°C - 17°C", sunrise: "06:48", sunset: "18:20" },
+                attractions: [
+                    { name: "塞切尼鏈橋 Széchenyi Chain Bridge", note: "多瑙河明珠跨河大橋夜景散步" }
+                ],
+                transport: {
+                    type: "Train",
+                    schedule: "08:39 – 13:32",
+                    operator: "ÖBB / MÁV Rail",
+                    fromName: "Graz Hbf",
+                    fromQuery: "Graz Hbf",
+                    toName: "Budapest Keleti Station",
+                    toQuery: "Budapest-Keleti"
+                },
+                accommodation: { name: "AVAIL Hostel Budapest", query: "AVAIL Hostel Budapest" },
+                references: []
+            },
+            {
+                day: 36,
+                date: "2026-10-06",
+                displayDate: "6 Oct 2026",
+                country: "Hungary",
+                countryZh: "匈牙利",
+                flag: "🇭🇺",
+                city: "聖安德烈 Szentendre 一日遊",
+                weather: { temp: "8°C - 16°C", sunrise: "06:50", sunset: "18:18" },
+                attractions: [
+                    { name: "聖安德烈小鎮 Szentendre", note: "繽紛藝術小鎮、石板巷弄與特色小店" },
+                    { name: "軟糖博物館 Marzipan Museum", note: "精美杏仁糖雕塑" }
+                ],
+                accommodation: { name: "AVAIL Hostel Budapest", query: "AVAIL Hostel Budapest" },
+                references: []
+            },
+            {
+                day: 37,
+                date: "2026-10-07",
+                displayDate: "7 Oct 2026",
+                country: "Hungary",
+                countryZh: "匈牙利",
+                flag: "🇭🇺",
+                city: "厄斯特貢 Esztergom 一日遊",
+                weather: { temp: "8°C - 16°C", sunrise: "06:51", sunset: "18:16" },
+                attractions: [
+                    { name: "厄斯特貢大教堂 Esztergom Basilica", note: "匈牙利最大天主教堂" },
+                    { name: "瑪麗亞瓦萊里亞橋 Mária Valéria Bridge", note: "跨多瑙河遙望對岸斯洛伐克" }
+                ],
+                accommodation: { name: "AVAIL Hostel Budapest", query: "AVAIL Hostel Budapest" },
+                references: []
+            },
+            {
+                day: 38,
+                date: "2026-10-08",
+                displayDate: "8 Oct 2026",
+                country: "Hungary",
+                countryZh: "匈牙利",
+                flag: "🇭🇺",
+                city: "埃格爾 Eger 一日遊",
+                weather: { temp: "7°C - 15°C", sunrise: "06:52", sunset: "18:14" },
+                attractions: [
+                    { name: "埃格爾城堡 Eger Castle", note: "抵抗鄂圖曼帝國英雄古堡" },
+                    { name: "美人谷 Valley of the Beautiful Women", note: "品嚐著名公牛血紅酒 (Bull's Blood)" },
+                    { name: "埃格爾尖塔 Eger Minaret", note: "歐洲最北鄂圖曼尖塔" }
+                ],
+                accommodation: { name: "AVAIL Hostel Budapest", query: "AVAIL Hostel Budapest" },
+                references: []
+            },
+            {
+                day: 39,
+                date: "2026-10-09",
+                displayDate: "9 Oct 2026",
+                country: "Hungary",
+                countryZh: "匈牙利",
+                flag: "🇭🇺",
+                city: "布達佩斯 Budapest (布達區)",
+                weather: { temp: "8°C - 16°C", sunrise: "06:54", sunset: "18:12" },
+                attractions: [
+                    { name: "布達城堡區 Buda Castle District", note: "歷史城堡園區漫步" },
+                    { name: "漁人堡 Fisherman's Bastion", note: "夢幻童話哥德塔樓俯瞰國會大廈" },
+                    { name: "馬提亞斯教堂 Matthias Church", note: "彩色馬賽克屋頂" },
+                    { name: "布達城堡 Buda Castle", note: "國家畫廊與歷史博物館" }
+                ],
+                accommodation: { name: "AVAIL Hostel Budapest", query: "AVAIL Hostel Budapest" },
+                references: []
+            },
+            {
+                day: 40,
+                date: "2026-10-10",
+                displayDate: "10 Oct 2026",
+                country: "Hungary",
+                countryZh: "匈牙利",
+                flag: "🇭🇺",
+                city: "布達佩斯 Budapest (佩斯區)",
+                weather: { temp: "7°C - 15°C", sunrise: "06:55", sunset: "18:10" },
+                attractions: [
+                    { name: "匈牙利國會大廈 Hungarian Parliament Building", note: "多瑙河畔最壯麗建築" },
+                    { name: "匈牙利國家歌劇院 Hungarian State Opera", note: "新文藝復興輝煌劇院" },
+                    { name: "恐怖屋 House of Terror", note: "納粹與納粹共產時期紀念館" },
+                    { name: "聖伊什特萬聖殿 St. Stephen's Basilica", note: "登頂俯瞰佩斯市景" }
+                ],
+                accommodation: { name: "AVAIL Hostel Budapest", query: "AVAIL Hostel Budapest" },
+                references: []
+            },
+            {
+                day: 41,
+                date: "2026-10-11",
+                displayDate: "11 Oct 2026",
+                country: "Hungary",
+                countryZh: "匈牙利",
+                flag: "🇭🇺",
+                city: "布達佩斯 Budapest",
+                weather: { temp: "7°C - 15°C", sunrise: "06:57", sunset: "18:08" },
+                attractions: [
+                    { name: "中央市場 Great Market Hall", note: "採買鵝肝醬、紅椒粉與牛肉湯" },
+                    { name: "瓦茨街 Váci utca", note: "熱鬧購物步行街" },
+                    { name: "廢墟酒吧 Ruin Bars (Szimpla Kert)", note: "體驗特色夜生活文化" }
+                ],
+                accommodation: { name: "AVAIL Hostel Budapest", query: "AVAIL Hostel Budapest" },
+                references: []
+            },
+            {
+                day: 42,
+                date: "2026-10-12",
+                displayDate: "12 Oct 2026",
+                country: "Slovakia",
+                countryZh: "斯洛伐克",
+                flag: "🇸🇰",
+                city: "前往 布拉提斯拉瓦 Bratislava",
+                weather: { temp: "6°C - 14°C", sunrise: "06:58", sunset: "18:06" },
+                attractions: [
+                    { name: "布拉提斯拉瓦城堡 Bratislava Castle", note: "四角倒置桌子城堡" },
+                    { name: "聖馬丁主教座堂 St. Martin's Cathedral", note: "匈牙利國王加冕教堂" },
+                    { name: "米歇爾門 Michael's Gate", note: "唯一保留中世紀城門" },
+                    { name: "主廣場 Main Square & 觀察者雕像 Cumil", note: "下水道工人趣味雕像" },
+                    { name: "斯洛伐克總統府 Grassalkovich Palace", note: "洛可可花園" },
+                    { name: "聖伊麗莎白教堂 (藍色教堂) Blue Church", note: "粉藍童話新藝術教堂" }
+                ],
+                transport: {
+                    type: "Train",
+                    schedule: "09:30 – 11:55",
+                    operator: "MÁV / ZSSK Train",
+                    fromName: "Budapest-Nyugati",
+                    fromQuery: "Budapest-Nyugati",
+                    toName: "Bratislava hlavná stanica",
+                    toQuery: "Bratislava Hlavna Stanica"
+                },
+                accommodation: { name: "Wild Elephants Hostel Bratislava", query: "Wild Elephants Hostel Bratislava" },
+                references: []
+            },
+            {
+                day: 43,
+                date: "2026-10-13",
+                displayDate: "13 Oct 2026",
+                country: "Slovakia",
+                countryZh: "斯洛伐克",
+                flag: "🇸🇰",
+                city: "前往 高塔特拉山脈 High Tatras",
+                weather: { temp: "2°C - 10°C", sunrise: "07:00", sunset: "18:04" },
+                attractions: [
+                    { name: "Starý Smokovec 施塔里斯莫科韋茨", note: "塔特拉山基點鎮漫步" }
+                ],
+                transport: {
+                    type: "Train",
+                    schedule: "09:15 – 14:01",
+                    operator: "ZSSK Express Train",
+                    fromName: "Bratislava hlavná stanica",
+                    fromQuery: "Bratislava Hlavna Stanica",
+                    toName: "Poprad-Tatry / Starý Smokovec",
+                    toQuery: "Stary Smokovec Station"
+                },
+                accommodation: { name: "TATRYSTAY Primo Apartment", query: "TATRYSTAY Primo Apartment Stary Smokovec" },
+                references: []
+            },
+            {
+                day: 44,
+                date: "2026-10-14",
+                displayDate: "14 Oct 2026",
+                country: "Slovakia",
+                countryZh: "斯洛伐克",
+                flag: "🇸🇰",
+                city: "高塔特拉山脈 High Tatras 健行",
+                weather: { temp: "1°C - 9°C", sunrise: "07:01", sunset: "18:02" },
+                attractions: [
+                    { name: "Štrbské Pleso 什特爾巴斯克湖", note: "高山冰河湖" },
+                    { name: "Tatranská magistrála 步道", note: "紅標高山縱走健行" },
+                    { name: "Popradské Pleso 波普拉德湖", note: "精美高山山屋與湖畔休憩" }
+                ],
+                accommodation: { name: "TATRYSTAY Primo Apartment", query: "TATRYSTAY Primo Apartment Stary Smokovec" },
+                references: []
+            },
+            {
+                day: 45,
+                date: "2026-10-15",
+                displayDate: "15 Oct 2026",
+                country: "Slovakia",
+                countryZh: "斯洛伐克",
+                flag: "🇸🇰",
+                city: "高塔特拉山脈 High Tatras 纜車",
+                weather: { temp: "0°C - 8°C", sunrise: "07:03", sunset: "18:00" },
+                attractions: [
+                    { name: "Hrebienok 赫雷比耶諾克", note: "山頂地鐵纜車上山" },
+                    { name: "Skalnaté pleso 斯卡爾納特湖", note: "高山纜車轉運站" },
+                    { name: "Lomnický štít 洛姆尼茨基峰", note: "第二高峰纜車觀景 (視天氣)" },
+                    { name: "Tatranská Lomnica 塔特拉倫尼卡", note: "纜車下山" }
+                ],
+                accommodation: { name: "TATRYSTAY Primo Apartment", query: "TATRYSTAY Primo Apartment Stary Smokovec" },
+                references: []
+            },
+            {
+                day: 46,
+                date: "2026-10-16",
+                displayDate: "16 Oct 2026",
+                country: "Czech Republic",
+                countryZh: "捷克",
+                flag: "🇨🇿",
+                city: "前往 布拉格 Praha",
+                weather: { temp: "5°C - 13°C", sunrise: "07:04", sunset: "17:58" },
+                attractions: [
+                    { name: "布拉格中央車站 Praha hl.n.", note: "新藝術風格火車站" },
+                    { name: "查理大橋夕陽散步", note: "遠眺布拉格城堡夜景" }
+                ],
+                transport: {
+                    type: "Train",
+                    schedule: "08:02 – 16:18",
+                    operator: "ZSSK / ČD Train",
+                    fromName: "Poprad-Tatry Station",
+                    fromQuery: "Poprad-Tatry Station",
+                    toName: "Praha hlavní nádraží",
+                    toQuery: "Praha hl.n."
+                },
+                accommodation: { name: "The RoadHouse Prague", query: "The RoadHouse Prague" },
+                references: []
+            },
+            {
+                day: 47,
+                date: "2026-10-17",
+                displayDate: "17 Oct 2026",
+                country: "Czech Republic",
+                countryZh: "捷克",
+                flag: "🇨🇿",
+                city: "布拉格 Praha (舊城區)",
+                weather: { temp: "5°C - 12°C", sunrise: "07:06", sunset: "17:56" },
+                attractions: [
+                    { name: "舊城廣場 Old Town Square", note: "提恩教堂雙塔與熱鬧集市" },
+                    { name: "天文鐘 Prague Astronomical Clock", note: "整點十二門徒報時" },
+                    { name: "聖尼古拉教堂 St. Nicholas Church", note: "巴洛克音樂教堂" },
+                    { name: "火藥塔 Powder Tower & 黑聖母之屋", note: "立體主義風格建築" },
+                    { name: "Letna Park 萊特納公園", note: "俯瞰伏爾塔瓦河多座大橋" }
+                ],
+                accommodation: { name: "The RoadHouse Prague", query: "The RoadHouse Prague" },
+                references: []
+            },
+            {
+                day: 48,
+                date: "2026-10-18",
+                displayDate: "18 Oct 2026",
+                country: "Czech Republic",
+                countryZh: "捷克",
+                flag: "🇨🇿",
+                city: "布拉格 Praha (城堡區)",
+                weather: { temp: "4°C - 12°C", sunrise: "07:07", sunset: "17:54" },
+                attractions: [
+                    { name: "布拉格城堡 Prague Castle", note: "世界最大古堡群" },
+                    { name: "聖維特主教座堂 St. Vitus Cathedral", note: "慕夏彩色玻璃窗" },
+                    { name: "黃金巷 Golden Lane", note: "卡夫卡故居與小巧小屋" },
+                    { name: "聖喬治大殿 & 舊皇宮", note: "羅曼式與哥德歷史廳堂" },
+                    { name: "華倫斯坦花園 Wallenstein Garden", note: "巴洛克孔雀花園" },
+                    { name: "佩特任山纜車 Petřín Lookout Tower", note: "小艾菲爾鐵塔俯瞰全景" }
+                ],
+                accommodation: { name: "The RoadHouse Prague", query: "The RoadHouse Prague" },
+                references: []
+            },
+            {
+                day: 49,
+                date: "2026-10-19",
+                displayDate: "19 Oct 2026",
+                country: "Czech Republic",
+                countryZh: "捷克",
+                flag: "🇨🇿",
+                city: "庫特納霍拉 Kutná Hora 一日遊",
+                weather: { temp: "4°C - 11°C", sunrise: "07:09", sunset: "17:52" },
+                attractions: [
+                    { name: "人骨教堂 Sedlec Ossuary", note: "四萬人骨裝飾的奇幻教堂" },
+                    { name: "聖巴巴拉教堂 St. Barbara's Church", note: "飛券式哥德式傑作" },
+                    { name: "意大利宮 Italian Court", note: "昔日皇家鑄幣廠" }
+                ],
+                accommodation: { name: "The RoadHouse Prague", query: "The RoadHouse Prague" },
+                references: [{ title: "Leo Travel 庫特納霍拉攻略", url: "https://www.leo-travel.idv.tw/81718/czech-kutna-hora-guide" }]
+            },
+            {
+                day: 50,
+                date: "2026-10-20",
+                displayDate: "20 Oct 2026",
+                country: "Czech Republic",
+                countryZh: "捷克",
+                flag: "🇨🇿",
+                city: "布拉格 Praha (新城區)",
+                weather: { temp: "5°C - 11°C", sunrise: "07:11", sunset: "17:50" },
+                attractions: [
+                    { name: "瓦茨拉夫廣場 Wenceslas Square", note: "捷克現代歷史民主發源地" },
+                    { name: "國家博物館 National Museum", note: "宏偉歷史展示館" },
+                    { name: "Church of St. Cyril and Methodius", note: "二戰英雄類比行動庇護地" },
+                    { name: "跳舞的房子 Dancing House", note: "前衛解構主義建築" },
+                    { name: "軍團橋 & 布拉格國家劇院 National Theatre", note: "沿河漫步" }
+                ],
+                accommodation: { name: "The RoadHouse Prague", query: "The RoadHouse Prague" },
+                references: []
+            },
+            {
+                day: 51,
+                date: "2026-10-21",
+                displayDate: "21 Oct 2026",
+                country: "Czech Republic",
+                countryZh: "捷克",
+                flag: "🇨🇿",
+                city: "前往 庫倫洛夫 Český Krumlov",
+                weather: { temp: "3°C - 11°C", sunrise: "07:12", sunset: "17:48" },
+                attractions: [
+                    { name: "伏爾塔瓦河 S 彎道倒影", note: "童話般小鎮全景" },
+                    { name: "捷克克魯姆洛夫城堡 Český Krumlov Castle", note: "彩繪塔與彩虹橋" },
+                    { name: "Latrán 區", note: "古老石板路與藝術小店" }
+                ],
+                transport: {
+                    type: "Train",
+                    schedule: "09:21 – 11:49",
+                    operator: "ČD Train / RegioJet",
+                    fromName: "Praha hl.n.",
+                    fromQuery: "Praha hl.n.",
+                    toName: "Český Krumlov Station",
+                    toQuery: "Cesky Krumlov Station"
+                },
+                accommodation: { name: "Gall 44 Apartments", query: "Gall 44 Apartments Cesky Krumlov" },
+                references: []
+            },
+            {
+                day: 52,
+                date: "2026-10-22",
+                displayDate: "22 Oct 2026",
+                country: "Czech Republic",
+                countryZh: "捷克",
+                flag: "🇨🇿",
+                city: "庫倫洛夫 ➔ 返回 布拉格 Praha",
+                weather: { temp: "4°C - 10°C", sunrise: "07:14", sunset: "17:46" },
+                attractions: [
+                    { name: "CK 小鎮晨曦清晨散步", note: "避開遊客潮享受寧靜" },
+                    { name: "布拉格小城區漫遊", note: "藍儂牆 Lennon Wall 繪畫" }
+                ],
+                transport: {
+                    type: "Train",
+                    schedule: "14:08 – 16:39",
+                    operator: "ČD Express",
+                    fromName: "Český Krumlov Station",
+                    fromQuery: "Cesky Krumlov Station",
+                    toName: "Praha hl.n.",
+                    toQuery: "Praha hl.n."
+                },
+                accommodation: { name: "Ahoy! Hostel Prague", query: "Ahoy Hostel Prague" },
+                references: []
+            },
+            {
+                day: 53,
+                date: "2026-10-23",
+                displayDate: "23 Oct 2026",
+                country: "Poland",
+                countryZh: "波蘭",
+                flag: "🇵🇱",
+                city: "前往 克拉科夫 Krakow",
+                weather: { temp: "3°C - 10°C", sunrise: "07:15", sunset: "17:44" },
+                attractions: [
+                    { name: "克拉科夫猶太區 Kazimierz", note: "歷史酒吧、文青咖啡廳與波蘭卡斯札普卡" }
+                ],
+                transport: {
+                    type: "Train",
+                    schedule: "08:23 – 14:22",
+                    operator: "PKP Intercity",
+                    fromName: "Praha hl.n.",
+                    fromQuery: "Praha hl.n.",
+                    toName: "Kraków Główny",
+                    toQuery: "Krakow Glowny"
+                },
+                accommodation: { name: "Greg & Tom Hostel Krakow", query: "Greg and Tom Hostel Krakow" },
+                references: [{ title: "Erin 波蘭 14 天行程參考", url: "https://www.travelwitherin.co.uk/travel-to-poland/poland-14-day-itinerary" }]
+            },
+            {
+                day: 54,
+                date: "2026-10-24",
+                displayDate: "24 Oct 2026",
+                country: "Poland",
+                countryZh: "波蘭",
+                flag: "🇵🇱",
+                city: "奧斯威辛集中營 Auschwitz-Birkenau",
+                weather: { temp: "2°C - 9°C", sunrise: "07:17", sunset: "17:42" },
+                attractions: [
+                    { name: "奧斯威辛一號營 Auschwitz I", note: "二戰納粹集中營歷史博物館" },
+                    { name: "比克瑙二號營 Auschwitz II-Birkenau", note: "震撼鐵軌與遺址" }
+                ],
+                accommodation: { name: "Greg & Tom Hostel Krakow", query: "Greg and Tom Hostel Krakow" },
+                references: [{ title: "奧斯威辛官方預訂網站", url: "https://www.auschwitz.org" }]
+            },
+            {
+                day: 55,
+                date: "2026-10-25",
+                displayDate: "25 Oct 2026",
+                country: "Poland",
+                countryZh: "波蘭",
+                flag: "🇵🇱",
+                city: "維利奇卡鹽礦 Wieliczka Salt Mine",
+                weather: { temp: "3°C - 9°C", sunrise: "07:19", sunset: "17:40" },
+                attractions: [
+                    { name: "維利奇卡鹽礦 Wieliczka Salt Mine", note: "地底135公尺聖金加教堂鹽雕" },
+                    { name: "克拉科夫中央集市廣場 Rynek Główny", note: "紡織會館與聖母聖殿" }
+                ],
+                accommodation: { name: "Greg & Tom Hostel Krakow", query: "Greg and Tom Hostel Krakow" },
+                references: []
+            },
+            {
+                day: 56,
+                date: "2026-10-26",
+                displayDate: "26 Oct 2026",
+                country: "Poland",
+                countryZh: "波蘭",
+                flag: "🇵🇱",
+                city: "前往 扎科帕內 Zakopane",
+                weather: { temp: "0°C - 8°C", sunrise: "06:21", sunset: "16:38" },
+                attractions: [
+                    { name: "Krupówki 庫普烏夫基主街", note: "木造高地風格特色街道" },
+                    { name: "Gubałówka 咕巴洛夫卡山頂瞭望台", note: "纜車登頂俯瞰塔特拉山全景" }
+                ],
+                transport: {
+                    type: "Train",
+                    schedule: "10:03 – 12:10",
+                    operator: "PKP Intercity / Bus",
+                    fromName: "Kraków Główny",
+                    fromQuery: "Krakow Glowny",
+                    toName: "Zakopane Station",
+                    toQuery: "Zakopane Station"
+                },
+                accommodation: { name: "Willa Belmont Zakopane", query: "Willa Belmont Zakopane" },
+                references: []
+            },
+            {
+                day: 57,
+                date: "2026-10-27",
+                displayDate: "27 Oct 2026",
+                country: "Poland",
+                countryZh: "波蘭",
+                flag: "🇵🇱",
+                city: "扎科帕內 Kasprowy Wierch 健行",
+                weather: { temp: "-1°C - 7°C", sunrise: "06:22", sunset: "16:36" },
+                attractions: [
+                    { name: "Kasprowy Wierch Cable Car", note: "高山高空纜車登頂" },
+                    { name: "Hala Gąsienicowa 高山平原", note: "美麗高山山谷與木屋" },
+                    { name: "Kasprowy Wierch Ground Station", note: "健行返程" }
+                ],
+                accommodation: { name: "Willa Belmont Zakopane", query: "Willa Belmont Zakopane" },
+                references: []
+            },
+            {
+                day: 58,
+                date: "2026-10-28",
+                displayDate: "28 Oct 2026",
+                country: "Poland",
+                countryZh: "波蘭",
+                flag: "🇵🇱",
+                city: "前往 華沙 Warsaw",
+                weather: { temp: "2°C - 8°C", sunrise: "06:24", sunset: "16:34" },
+                attractions: [
+                    { name: "文化科學宮 Palace of Culture and Science", note: "登頂 30 樓觀景台俯瞰華沙" },
+                    { name: "華沙新城區漫步", note: "蕭邦音樂椅與商業大道" }
+                ],
+                transport: {
+                    type: "Train",
+                    schedule: "09:00 – 13:20",
+                    operator: "PKP Express InterCity Premium",
+                    fromName: "Zakopane / Kraków Główny",
+                    fromQuery: "Krakow Glowny",
+                    toName: "Warszawa Centralna",
+                    toQuery: "Warszawa Centralna"
+                },
+                accommodation: { name: "Oki Doki OLD TOWN hostel (Official)", query: "Oki Doki Old Town Hostel Warsaw" },
+                references: []
+            },
+            {
+                day: 59,
+                date: "2026-10-29",
+                displayDate: "29 Oct 2026",
+                country: "Poland",
+                countryZh: "波蘭",
+                flag: "🇵🇱",
+                city: "華沙 Warsaw (老城區)",
+                weather: { temp: "2°C - 8°C", sunrise: "06:26", sunset: "16:32" },
+                attractions: [
+                    { name: "華沙甕城 Barbakan Warszawski", note: "紅磚中世紀防禦遺跡" },
+                    { name: "Warsaw Uprising Monument", note: "起義紀念碑" },
+                    { name: " Sigismund's Column 齊格蒙特柱", note: "老城廣場心臟" },
+                    { name: "聖若翰洗者聖殿總主教座堂", note: "哥德式哥特主教座堂" },
+                    { name: "華沙皇家城堡 Royal Castle", note: "巴洛克皇宮" },
+                    { name: "聖安妮教堂觀景台 St. Anne's Church", note: "爬樓梯俯瞰老城廣場" },
+                    { name: "Saxon Garden 薩克森花園", note: "無名烈士墓" }
+                ],
+                accommodation: { name: "Oki Doki OLD TOWN hostel (Official)", query: "Oki Doki Old Town Hostel Warsaw" },
+                references: []
+            },
+            {
+                day: 60,
+                date: "2026-10-30",
+                displayDate: "30 Oct 2026",
+                country: "Poland",
+                countryZh: "波蘭",
+                flag: "🇵🇱",
+                city: "華沙 ➔ 格但斯克 Gdansk",
+                weather: { temp: "3°C - 8°C", sunrise: "06:28", sunset: "16:30" },
+                attractions: [
+                    { name: "華沙起義博物館 Warsaw Uprising Museum", note: "互動式歷史展示" },
+                    { name: "格但斯克長街 Długi Targ", note: "海神噴泉與摩特瓦河畔" },
+                    { name: "Punkt widokowy na Górze Gradowej", note: "山丘俯瞰格但斯克夜景" }
+                ],
+                transport: {
+                    type: "Train",
+                    schedule: "11:29 – 14:01",
+                    operator: "PKP Intercity",
+                    fromName: "Warszawa Centralna",
+                    fromQuery: "Warszawa Centralna",
+                    toName: "Gdańsk Główny",
+                    toQuery: "Gdansk Glowny"
+                },
+                accommodation: { name: "Dzien Dobry Hostel Gdansk", query: "Dzien Dobry Hostel Gdansk" },
+                references: []
+            },
+            {
+                day: 61,
+                date: "2026-10-31",
+                displayDate: "31 Oct 2026",
+                country: "Poland",
+                countryZh: "波蘭 ➔ 立陶宛",
+                flag: "🇵🇱",
+                city: "馬爾堡城堡 Malbork ➔ 夜車前往 維爾紐斯",
+                weather: { temp: "2°C - 7°C", sunrise: "06:30", sunset: "16:28" },
+                attractions: [
+                    { name: "馬爾堡城堡 Malbork Castle", note: "世界最大紅磚條頓騎士團城堡" }
+                ],
+                transport: {
+                    type: "NightBus",
+                    schedule: "23:15 – 09:50 (+1)",
+                    operator: "Lux Express / FlixBus Overnight",
+                    fromName: "Gdańsk Główny Bus Station",
+                    fromQuery: "Gdansk Bus Station",
+                    toName: "Vilnius Bus Station",
+                    toQuery: "Vilnius Central Bus Station"
+                },
+                accommodation: { name: "夜宿跨國長途巴士 (Overnight Bus)", query: "Gdansk Bus Station" },
+                references: []
+            },
+            {
+                day: 62,
+                date: "2026-11-01",
+                displayDate: "1 Nov 2026",
+                country: "Lithuania",
+                countryZh: "立陶宛",
+                flag: "🇱🇹",
+                city: "維爾紐斯 Vilnius",
+                weather: { temp: "1°C - 6°C", sunrise: "07:25", sunset: "16:30" },
+                attractions: [
+                    { name: "黎明門 Gate of Dawn", note: "聖母瑪利亞禮拜堂黑聖母像" },
+                    { name: "聖加西彌祿教堂 Church of St. Casimir", note: "巴洛克皇冠圓頂" },
+                    { name: "維爾紐斯市政廳 Town Hall", note: "經典古典主義建築" },
+                    { name: "立陶宛總統府 Presidential Palace", note: "優雅庭園" }
+                ],
+                accommodation: { name: "Mikalo House Vilnius", query: "Mikalo House Vilnius" },
+                references: []
+            },
+            {
+                day: 63,
+                date: "2026-11-02",
+                displayDate: "2 Nov 2026",
+                country: "Lithuania",
+                countryZh: "立陶宛",
+                flag: "🇱🇹",
+                city: "特拉凱島城堡 Trakai Castle",
+                weather: { temp: "0°C - 5°C", sunrise: "07:27", sunset: "16:28" },
+                attractions: [
+                    { name: "特拉凱島城堡 Trakai Island Castle", note: "湖心紅磚童話城堡" },
+                    { name: "加爾韋湖 Lake Galvė", note: "湖畔散步與傳統 Kybyn 餡餅" }
+                ],
+                accommodation: { name: "Mikalo House Vilnius", query: "Mikalo House Vilnius" },
+                references: []
+            },
+            {
+                day: 64,
+                date: "2026-11-03",
+                displayDate: "3 Nov 2026",
+                country: "Lithuania",
+                countryZh: "立陶宛",
+                flag: "🇱🇹",
+                city: "維爾紐斯 Vilnius",
+                weather: { temp: "0°C - 5°C", sunrise: "07:29", sunset: "16:26" },
+                attractions: [
+                    { name: "對岸共和國 Uzupis", note: "獨立藝術家國度與憲法牆" },
+                    { name: "聖母主座教堂 & 聖弗朗西斯和聖伯納德教堂", note: "哥德式紅磚教堂群" },
+                    { name: "維爾紐斯主座教堂 Vilnius Cathedral", note: "白色柱廊與獨立鐘樓" },
+                    { name: "格迪米納斯塔 Gediminas Tower & 三十字架 Three Crosses", note: "俯瞰維爾紐斯全景" }
+                ],
+                accommodation: { name: "Mikalo House Vilnius", query: "Mikalo House Vilnius" },
+                references: []
+            },
+            {
+                day: 65,
+                date: "2026-11-04",
+                displayDate: "4 Nov 2026",
+                country: "Latvia",
+                countryZh: "拉脫維亞",
+                flag: "🇱🇻",
+                city: "前往 里加 Riga (途經 十字架山)",
+                weather: { temp: "1°C - 5°C", sunrise: "07:33", sunset: "16:22" },
+                attractions: [
+                    { name: "十字架山 Hill of Crosses", note: "數十萬座十字架和平聖地 (Sightseeing bus 停留)" }
+                ],
+                transport: {
+                    type: "Bus",
+                    schedule: "09:00 – 18:00 (含導覽)",
+                    operator: "Riga Traveller Sightseeing Bus",
+                    fromName: "Vilnius Central Station",
+                    fromQuery: "Vilnius Central Station",
+                    toName: "Riga Central Bus Station",
+                    toQuery: "Riga Central Bus Station"
+                },
+                accommodation: { name: "Cinnamon Sally Backpackers Hostel", query: "Cinnamon Sally Backpackers Hostel Riga" },
+                references: [{ title: "Riga Traveller 觀光巴士預訂", url: "https://www.rigatraveller.com/tour/vilnius-riga-sightseeing-tour-bus" }]
+            },
+            {
+                day: 66,
+                date: "2026-11-05",
+                displayDate: "5 Nov 2026",
+                country: "Latvia",
+                countryZh: "拉脫維亞",
+                flag: "🇱🇻",
+                city: "里加 Riga (舊城區)",
+                weather: { temp: "0°C - 5°C", sunrise: "07:35", sunset: "16:20" },
+                attractions: [
+                    { name: "黑頭宮 House of the Black Heads", note: "精美華麗商人會館" },
+                    { name: "里加主教座堂 Riga Cathedral", note: "波羅的海地區最大教堂" },
+                    { name: "里加三兄弟 Three Brothers", note: "中世紀民居建築" },
+                    { name: "Laima Clock & 不萊梅樂隊雕像 Town Musicians of Bremen", note: "童話地標" },
+                    { name: "聖彼得教堂 St. Peter's Church", note: "登高眺望舊城俯瞰圖" }
+                ],
+                accommodation: { name: "Cinnamon Sally Backpackers Hostel", query: "Cinnamon Sally Backpackers Hostel Riga" },
+                references: [{ title: "GuruWalk 里加免費徒步導覽", url: "https://www.guruwalk.com/riga?pro=true&ref_campaign=11128640535_1158_destinos_riga_en_free-walking-tour-" }]
+            },
+            {
+                day: 67,
+                date: "2026-11-06",
+                displayDate: "6 Nov 2026",
+                country: "Latvia",
+                countryZh: "拉脫維亞",
+                flag: "🇱🇻",
+                city: "里加 Riga",
+                weather: { temp: "0°C - 4°C", sunrise: "07:37", sunset: "16:18" },
+                attractions: [
+                    { name: "里加中央市場 Riga Central Market", note: "飛機棚改建的大型傳統市場" },
+                    { name: "Alberta iela 新藝術建築街區", note: "華麗新藝術風格 фасады" },
+                    { name: "聖誕主教座堂 Nativity Cathedral", note: "金頂東正教堂" }
+                ],
+                accommodation: { name: "Cinnamon Sally Backpackers Hostel", query: "Cinnamon Sally Backpackers Hostel Riga" },
+                references: []
+            },
+            {
+                day: 68,
+                date: "2026-11-07",
+                displayDate: "7 Nov 2026",
+                country: "Estonia",
+                countryZh: "愛沙尼亞",
+                flag: "🇪🇪",
+                city: "前往 塔林 Tallinn",
+                weather: { temp: "0°C - 4°C", sunrise: "07:45", sunset: "16:10" },
+                attractions: [
+                    { name: "帕特庫利觀景台 Patkuli Viewing Platform", note: "俯瞰塔林紅屋頂與城牆夕陽" }
+                ],
+                transport: {
+                    type: "Bus",
+                    schedule: "09:30 – 13:35",
+                    operator: "Lux Express / FlixBus",
+                    fromName: "Riga Central Bus Station",
+                    fromQuery: "Riga Central Bus Station",
+                    toName: "Tallinn Central Bus Station",
+                    toQuery: "Tallinn Bus Station"
+                },
+                accommodation: { name: "Rixwell Collection Savoy Boutique Hotel", query: "Rixwell Collection Savoy Boutique Hotel Tallinn" },
+                references: []
+            },
+            {
+                day: 69,
+                date: "2026-11-08",
+                displayDate: "8 Nov 2026",
+                country: "Estonia",
+                countryZh: "愛沙尼亞",
+                flag: "🇪🇪",
+                city: "塔林 Tallinn (下城區)",
+                weather: { temp: "-1°C - 3°C", sunrise: "07:47", sunset: "16:08" },
+                attractions: [
+                    { name: "維魯門 Viru Gate", note: "進入中世紀古城入口" },
+                    { name: "St. Catherine's Passage 聖凱瑟琳通道", note: "手工藝工作坊石板小巷" },
+                    { name: "市政廳廣場 Town Hall Square & 市政廳藥店", note: "歐洲最古老連續營業藥局" },
+                    { name: "聖尼古拉教堂 & 大基爾特之屋 Great Guild Hall", note: "歷史博物館" },
+                    { name: "House of the Blackheads & 聖奧拉夫教堂 St. Olaf's", note: "昔日最高尖塔" },
+                    { name: "Great Coastal Gate 大海岸門", note: "胖瑪格麗特堡壘" }
+                ],
+                accommodation: { name: "Rixwell Collection Savoy Boutique Hotel", query: "Rixwell Collection Savoy Boutique Hotel Tallinn" },
+                references: []
+            },
+            {
+                day: 70,
+                date: "2026-11-09",
+                displayDate: "9 Nov 2026",
+                country: "Estonia",
+                countryZh: "愛沙尼亞",
+                flag: "🇪🇪",
+                city: "塔林 Tallinn (上城區 / 座堂山)",
+                weather: { temp: "-1°C - 3°C", sunrise: "07:49", sunset: "16:06" },
+                attractions: [
+                    { name: "自由廣場 Freedom Square & St. John's Church", note: "獨立紀念碑" },
+                    { name: "防禦工事博物館 Kiek in de Kök", note: "地道防衛工事" },
+                    { name: "座堂山城堡 Toompea Castle", note: "愛沙尼亞國會所在地" },
+                    { name: "亞歷山大·涅夫斯基主教座堂", note: "洋蔥頭東正教堂" },
+                    { name: "塔林聖母主教座堂 Tallinn Cathedral", note: "高聳鐘樓" },
+                    { name: "Danish King's Garden & Pikk jalg 長腿街", note: "古典古道" }
+                ],
+                accommodation: { name: "Rixwell Collection Savoy Boutique Hotel", query: "Rixwell Collection Savoy Boutique Hotel Tallinn" },
+                references: []
+            },
+            {
+                day: 71,
+                date: "2026-11-10",
+                displayDate: "10 Nov 2026",
+                country: "Estonia",
+                countryZh: "愛沙尼亞",
+                flag: "🇪🇪",
+                city: "拉赫馬國家公園 Lahemaa Day Trip",
+                weather: { temp: "-2°C - 2°C", sunrise: "07:52", sunset: "16:04" },
+                attractions: [
+                    { name: "拉赫馬國家公園 Lahemaa National Park", note: "沼澤木棧道 Viru Bog" },
+                    { name: "巴爾的摩莊園 Sagadi / Palmse Manor", note: "歷史莊園與漁村 Altja" }
+                ],
+                accommodation: { name: "Rixwell Collection Savoy Boutique Hotel", query: "Rixwell Collection Savoy Boutique Hotel Tallinn" },
+                references: [{ title: "Tallinn Day Trip 國家公園行程", url: "https://tallinndaytrip.com/tours/day-trip-to-lahemaa-national-park/" }]
+            },
+            {
+                day: 72,
+                date: "2026-11-11",
+                displayDate: "11 Nov 2026",
+                country: "Estonia",
+                countryZh: "愛沙尼亞 ➔ 香港",
+                flag: "🇪🇪",
+                city: "塔林 Tallinn ➔ 返回香港",
+                weather: { temp: "-2°C - 2°C", sunrise: "07:54", sunset: "16:02" },
+                attractions: [
+                    { name: "塔林倫納特·梅里機場 (TLL)", note: "辦理登機與退稅" },
+                    { name: "搭乘返港航班", note: "結束 72 天精彩 European Odyssey！" }
+                ],
+                transport: {
+                    type: "Flight",
+                    schedule: "根據機票班次",
+                    operator: "Homeward Flight",
+                    fromName: "Tallinn Airport",
+                    fromQuery: "Tallinn Airport",
+                    toName: "Hong Kong International Airport",
+                    toQuery: "Hong Kong Airport"
+                },
+                accommodation: null,
+                references: []
+            }
+        ];
+
+        let currentCountry = "All";
+        let searchQuery = "";
+        let viewMode = "card"; // 'card' or 'timeline'
+        let bookmarks = JSON.parse(localStorage.getItem("euro2026_bookmarks") || "[]");
+        let completedDays = JSON.parse(localStorage.getItem("euro2026_completed") || "[]");
+        let showBookmarksOnly = false;
+
+        // Extract list of unique countries
+        const countriesList = [
+            { id: "All", name: "全部國家 All", flag: "🌍" },
+            { id: "Greece", name: "希臘 Greece", flag: "🇬🇷" },
+            { id: "Albania", name: "阿爾巴尼亞 Albania", flag: "🇦🇱" },
+            { id: "North Macedonia", name: "北馬其頓 Macedonia", flag: "🇲🇰" },
+            { id: "Kosovo", name: "科索沃 Kosovo", flag: "🇽🇰" },
+            { id: "Montenegro", name: "黑山 Montenegro", flag: "🇲🇪" },
+            { id: "Croatia", name: "克羅地亞 Croatia", flag: "🇭🇷" },
+            { id: "Bosnia and Herzegovina", name: "波斯尼亞 Bosnia", flag: "🇧🇦" },
+            { id: "Slovenia", name: "斯洛文尼亞 Slovenia", flag: "🇸🇮" },
+            { id: "Austria", name: "奧地利 Austria", flag: "🇦🇹" },
+            { id: "Hungary", name: "匈牙利 Hungary", flag: "🇭🇺" },
+            { id: "Slovakia", name: "斯洛伐克 Slovakia", flag: "🇸🇰" },
+            { id: "Czech Republic", name: "捷克 Czechia", flag: "🇨🇿" },
+            { id: "Poland", name: "波蘭 Poland", flag: "🇵🇱" },
+            { id: "Lithuania", name: "立陶宛 Lithuania", flag: "🇱🇹" },
+            { id: "Latvia", name: "拉脫維亞 Latvia", flag: "🇱🇻" },
+            { id: "Estonia", name: "愛沙尼亞 Estonia", flag: "🇪🇪" }
+        ];
+
+        function getMapsUrl(query) {
+            return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(query)}`;
+        }
+
+        document.addEventListener("DOMContentLoaded", () => {
+            initCountryTabs();
+            renderItinerary();
+            setupSearchListener();
+            updateBookmarkBadge();
+
+            // Auto set dark mode based on time or preference
+            if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                document.documentElement.classList.add('dark');
+            } else {
+                document.documentElement.classList.remove('dark');
+            }
+        });
+
+        function toggleDarkMode() {
+            if (document.documentElement.classList.contains('dark')) {
+                document.documentElement.classList.remove('dark');
+                localStorage.theme = 'light';
+            } else {
+                document.documentElement.classList.add('dark');
+                localStorage.theme = 'dark';
+            }
+        }
+
+        function initCountryTabs() {
+            const container = document.getElementById("countryTabsContainer");
+            container.innerHTML = countriesList.map(c => `
+                <button onclick="filterByCountry('${c.id}')" id="tab-${c.id.replace(/\s+/g, '')}"
+                    class="country-tab px-3 py-1.5 rounded-xl font-medium whitespace-nowrap transition-all border border-slate-200 dark:border-slate-800 flex items-center gap-1.5 ${
+                        currentCountry === c.id 
+                        ? 'bg-emerald-600 text-white border-emerald-600 shadow-sm' 
+                        : 'bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700'
+                    }">
+                    <span>${c.flag}</span>
+                    <span>${c.name}</span>
+                </button>
+            `).join("");
+        }
+
+        function filterByCountry(countryId) {
+            currentCountry = countryId;
+            showBookmarksOnly = false;
+            document.querySelectorAll('.country-tab').forEach(btn => {
+                btn.className = btn.className.replace('bg-emerald-600 text-white border-emerald-600 shadow-sm', 'bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700');
+            });
+            const selectedTab = document.getElementById(`tab-${countryId.replace(/\s+/g, '')}`);
+            if(selectedTab) {
+                selectedTab.className = selectedTab.className.replace('bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700', 'bg-emerald-600 text-white border-emerald-600 shadow-sm');
+                selectedTab.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+            }
+            renderItinerary();
+        }
+
+        function setupSearchListener() {
+            const input = document.getElementById("searchInput");
+            const clearBtn = document.getElementById("clearSearchBtn");
+
+            input.addEventListener("input", (e) => {
+                searchQuery = e.target.value.trim().toLowerCase();
+                if(searchQuery.length > 0) {
+                    clearBtn.classList.remove("hidden");
+                } else {
+                    clearBtn.classList.add("hidden");
+                }
+                renderItinerary();
+            });
+        }
+
+        function clearSearch() {
+            document.getElementById("searchInput").value = "";
+            searchQuery = "";
+            document.getElementById("clearSearchBtn").classList.add("hidden");
+            renderItinerary();
+        }
+
+        function resetFilters() {
+            currentCountry = "All";
+            searchQuery = "";
+            showBookmarksOnly = false;
+            document.getElementById("searchInput").value = "";
+            document.getElementById("clearSearchBtn").classList.add("hidden");
+            initCountryTabs();
+            renderItinerary();
+        }
+
+        function toggleBookmarksFilter() {
+            showBookmarksOnly = !showBookmarksOnly;
+            const btn = document.getElementById("bookmarkFilterBtn");
+            if (showBookmarksOnly) {
+                btn.classList.add("bg-rose-100", "dark:bg-rose-950/80", "text-rose-600");
+            } else {
+                btn.classList.remove("bg-rose-100", "dark:bg-rose-950/80", "text-rose-600");
+            }
+            renderItinerary();
+        }
+
+        function toggleBookmark(dayNum, e) {
+            if(e) e.stopPropagation();
+            if (bookmarks.includes(dayNum)) {
+                bookmarks = bookmarks.filter(d => d !== dayNum);
+            } else {
+                bookmarks.push(dayNum);
+            }
+            localStorage.setItem("euro2026_bookmarks", JSON.stringify(bookmarks));
+            updateBookmarkBadge();
+            renderItinerary();
+        }
+
+        function toggleComplete(dayNum, e) {
+            if(e) e.stopPropagation();
+            if (completedDays.includes(dayNum)) {
+                completedDays = completedDays.filter(d => d !== dayNum);
+            } else {
+                completedDays.push(dayNum);
+            }
+            localStorage.setItem("euro2026_completed", JSON.stringify(completedDays));
+            renderItinerary();
+        }
+
+        function updateBookmarkBadge() {
+            const badge = document.getElementById("bookmarkCountBadge");
+            if (bookmarks.length > 0) {
+                badge.innerText = bookmarks.length;
+                badge.classList.remove("hidden");
+            } else {
+                badge.classList.add("hidden");
+            }
+        }
+
+        function setViewMode(mode) {
+            viewMode = mode;
+            const btnCard = document.getElementById("btnViewCards");
+            const btnTimeline = document.getElementById("btnViewTimeline");
+            
+            if(mode === 'card') {
+                btnCard.className = "px-2.5 py-1 text-xs font-medium rounded-md bg-white dark:bg-slate-700 shadow-sm text-emerald-600 dark:text-emerald-400 transition";
+                btnTimeline.className = "px-2.5 py-1 text-xs font-medium rounded-md text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition";
+            } else {
+                btnTimeline.className = "px-2.5 py-1 text-xs font-medium rounded-md bg-white dark:bg-slate-700 shadow-sm text-emerald-600 dark:text-emerald-400 transition";
+                btnCard.className = "px-2.5 py-1 text-xs font-medium rounded-md text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition";
+            }
+            renderItinerary();
+        }
+
+        function renderItinerary() {
+            const container = document.getElementById("itineraryContainer");
+            const emptyState = document.getElementById("emptyResultState");
+            const filterText = document.getElementById("filterCurrentText");
+            const filterBadge = document.getElementById("filterCountBadge");
+
+            // Filter logic
+            let filtered = itineraryData.filter(item => {
+                const matchesCountry = (currentCountry === "All") || (item.country === currentCountry);
+                const matchesBookmarks = !showBookmarksOnly || bookmarks.includes(item.day);
+                
+                let matchesSearch = true;
+                if (searchQuery) {
+                    const fullString = [
+                        `day ${item.day}`,
+                        item.date,
+                        item.displayDate,
+                        item.country,
+                        item.countryZh,
+                        item.city,
+                        item.accommodation ? item.accommodation.name : '',
+                        item.transport ? `${item.transport.fromName} ${item.transport.toName} ${item.transport.operator}` : '',
+                        ...item.attractions.map(a => `${a.name} ${a.note}`)
+                    ].join(" ").toLowerCase();
+                    matchesSearch = fullString.includes(searchQuery);
+                }
+
+                return matchesCountry && matchesBookmarks && matchesSearch;
+            });
+
+            // Update status text
+            let currentTextStr = "";
+            if (showBookmarksOnly) currentTextStr += "[收藏天數] ";
+            if (currentCountry !== "All") {
+                const cObj = countriesList.find(c => c.id === currentCountry);
+                currentTextStr += `${cObj ? cObj.name : currentCountry} `;
+            } else {
+                currentTextStr += "全行程 ";
+            }
+            if (searchQuery) currentTextStr += `(關鍵字: "${searchQuery}")`;
+
+            filterText.innerText = currentTextStr;
+            filterBadge.innerText = `${filtered.length} 天`;
+
+            if (filtered.length === 0) {
+                container.innerHTML = "";
+                emptyState.classList.remove("hidden");
+                return;
+            } else {
+                emptyState.classList.add("hidden");
+            }
+
+            // View rendering switch
+            if (viewMode === 'card') {
+                container.className = "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5";
+                container.innerHTML = filtered.map(item => renderCardHtml(item)).join("");
+            } else {
+                container.className = "flex flex-col gap-4 max-w-4xl mx-auto";
+                container.innerHTML = filtered.map(item => renderTimelineHtml(item)).join("");
+            }
+        }
+
+        function renderCardHtml(item) {
+            const isBookmarked = bookmarks.includes(item.day);
+            const isCompleted = completedDays.includes(item.day);
+
+            return `
+            <div class="bg-white dark:bg-slate-800 rounded-3xl border ${isCompleted ? 'border-emerald-400 dark:border-emerald-600/80' : 'border-slate-200/90 dark:border-slate-700/80'} shadow-sm hover:shadow-md transition-all duration-200 flex flex-col justify-between overflow-hidden group">
+                
+                <div>
+                    <!-- Card Top Header -->
+                    <div class="p-4 pb-3 bg-slate-50/80 dark:bg-slate-800/50 border-b border-slate-100 dark:border-slate-700/50 flex items-start justify-between">
+                        <div class="flex items-center gap-2.5">
+                            <span class="w-8 h-8 rounded-xl bg-slate-900 dark:bg-white text-white dark:text-slate-900 text-xs font-black flex items-center justify-center shadow-sm">
+                                D${item.day}
+                            </span>
+                            <div>
+                                <div class="text-[11px] font-semibold text-slate-400 dark:text-slate-400 uppercase tracking-wider flex items-center gap-1">
+                                    <span>${item.flag} ${item.countryZh}</span>
+                                    <span>•</span>
+                                    <span>${item.displayDate}</span>
+                                </div>
+                                <h3 class="text-base font-bold text-slate-900 dark:text-white leading-snug">
+                                    ${item.city}
+                                </h3>
+                            </div>
+                        </div>
+
+                        <!-- Actions -->
+                        <div class="flex items-center gap-1">
+                            <button onclick="toggleBookmark(${item.day}, event)" title="收藏" class="p-1.5 rounded-lg hover:bg-slate-200/60 dark:hover:bg-slate-700 transition text-slate-400 hover:text-rose-500">
+                                <i class="fa-${isBookmarked ? 'solid text-rose-500' : 'regular'} fa-heart text-sm"></i>
+                            </button>
+                            <button onclick="toggleComplete(${item.day}, event)" title="${isCompleted ? '標示為未完成' : '標示為已完成'}" class="p-1.5 rounded-lg hover:bg-slate-200/60 dark:hover:bg-slate-700 transition text-slate-400">
+                                <i class="fa-${isCompleted ? 'solid text-emerald-500' : 'regular'} fa-circle-check text-sm"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Weather Info Bar -->
+                    <div class="px-4 py-2 bg-amber-50/50 dark:bg-amber-950/20 border-b border-amber-100/50 dark:border-amber-900/20 flex items-center justify-between text-[11px] text-amber-900 dark:text-amber-300">
+                        <div class="flex items-center gap-1 font-medium">
+                            <i class="fa-solid fa-temperature-half text-amber-500"></i>
+                            <span>${item.weather.temp}</span>
+                        </div>
+                        <div class="flex items-center gap-3 text-slate-500 dark:text-slate-400">
+                            <span><i class="fa-regular fa-sun text-amber-500 mr-1"></i>${item.weather.sunrise}</span>
+                            <span><i class="fa-solid fa-moon text-indigo-400 mr-1"></i>${item.weather.sunset}</span>
+                        </div>
+                    </div>
+
+                    <!-- Daily Attractions Section -->
+                    <div class="p-4 space-y-2.5">
+                        <div class="text-[11px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider flex items-center gap-1">
+                            <i class="fa-solid fa-map-pin text-emerald-500"></i> 今日景點地圖
+                        </div>
+                        <ul class="space-y-1.5">
+                            ${item.attractions.map(att => `
+                                <li class="text-xs group/item">
+                                    <a href="${getMapsUrl(att.name + ' ' + item.city)}" target="_blank" rel="noopener" 
+                                       class="inline-flex items-start gap-1.5 text-slate-700 dark:text-slate-200 hover:text-emerald-600 dark:hover:text-emerald-400 transition font-medium">
+                                        <i class="fa-solid fa-arrow-up-right-from-square text-[10px] text-slate-400 group-hover/item:text-emerald-500 mt-1 shrink-0"></i>
+                                        <span>${att.name}</span>
+                                    </a>
+                                    ${att.note ? `<span class="block text-[11px] text-slate-400 dark:text-slate-500 pl-4">${att.note}</span>` : ''}
+                                </li>
+                            `).join('')}
+                        </ul>
+                    </div>
+
+                    <!-- Transit Card (If Any) -->
+                    ${item.transport ? `
+                    <div class="mx-4 mb-3 p-3 rounded-2xl bg-slate-50 dark:bg-slate-700/40 border border-slate-200/70 dark:border-slate-700/70 text-xs">
+                        <div class="flex items-center justify-between mb-1.5">
+                            <span class="inline-flex items-center gap-1 font-bold text-blue-600 dark:text-blue-400 text-[11px]">
+                                <i class="fa-solid ${item.transport.type === 'Flight' ? 'fa-plane' : item.transport.type === 'Train' ? 'fa-train' : 'fa-bus'}"></i>
+                                ${item.transport.operator}
+                            </span>
+                            <span class="bg-blue-100 dark:bg-blue-950 text-blue-800 dark:text-blue-300 px-2 py-0.5 rounded-full text-[10px] font-bold">
+                                ${item.transport.schedule}
+                            </span>
+                        </div>
+                        <div class="space-y-1 text-[11px] text-slate-600 dark:text-slate-300">
+                            <div class="flex items-center justify-between">
+                                <span class="text-slate-400">上車點:</span>
+                                <a href="${getMapsUrl(item.transport.fromQuery)}" target="_blank" class="hover:underline font-medium text-emerald-600 dark:text-emerald-400 flex items-center gap-1">
+                                    ${item.transport.fromName} <i class="fa-solid fa-location-dot text-[10px]"></i>
+                                </a>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <span class="text-slate-400">下車點:</span>
+                                <a href="${getMapsUrl(item.transport.toQuery)}" target="_blank" class="hover:underline font-medium text-emerald-600 dark:text-emerald-400 flex items-center gap-1">
+                                    ${item.transport.toName} <i class="fa-solid fa-location-dot text-[10px]"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    ` : ''}
+
+                    <!-- Reference Links (If Any) -->
+                    ${item.references && item.references.length > 0 ? `
+                    <div class="px-4 mb-3 space-y-1">
+                        <div class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">參考連結</div>
+                        <div class="flex flex-wrap gap-1.5">
+                            ${item.references.map(ref => `
+                                <a href="${ref.url}" target="_blank" rel="noopener" class="inline-flex items-center gap-1 text-[11px] bg-slate-100 dark:bg-slate-700/60 hover:bg-slate-200 text-slate-600 dark:text-slate-300 px-2 py-1 rounded-lg transition">
+                                    <i class="fa-solid fa-link text-[9px] text-slate-400"></i>
+                                    <span>${ref.title}</span>
+                                </a>
+                            `).join('')}
+                        </div>
+                    </div>
+                    ` : ''}
+                </div>
+
+                <!-- Footer Accommodation Section -->
+                <div class="p-3 bg-slate-50 dark:bg-slate-800/80 border-t border-slate-100 dark:border-slate-700/60 text-xs flex items-center justify-between">
+                    <span class="text-slate-400 text-[11px] font-medium flex items-center gap-1">
+                        <i class="fa-solid fa-bed text-purple-500"></i> 住宿:
+                    </span>
+                    ${item.accommodation ? `
+                        <a href="${getMapsUrl(item.accommodation.query)}" target="_blank" rel="noopener" 
+                           class="font-bold text-purple-700 dark:text-purple-300 hover:underline flex items-center gap-1 truncate max-w-[200px]">
+                            <span class="truncate">${item.accommodation.name}</span>
+                            <i class="fa-solid fa-arrow-up-right-from-square text-[10px] shrink-0"></i>
+                        </a>
+                    ` : `
+                        <span class="text-slate-400 italic">行程結束/搭機</span>
+                    `}
+                </div>
+
+            </div>
+            `;
+        }
+
+        function renderTimelineHtml(item) {
+            const isBookmarked = bookmarks.includes(item.day);
+            const isCompleted = completedDays.includes(item.day);
+
+            return `
+            <div class="relative pl-6 pb-2 border-l-2 ${isCompleted ? 'border-emerald-500' : 'border-slate-200 dark:border-slate-700'}">
+                <div class="absolute -left-[9px] top-1 w-4 h-4 rounded-full ${isCompleted ? 'bg-emerald-500' : 'bg-slate-400 dark:bg-slate-600'} border-2 border-white dark:border-slate-900"></div>
+                
+                <div class="bg-white dark:bg-slate-800 rounded-2xl border border-slate-200/80 dark:border-slate-700/80 p-4 shadow-sm">
+                    <div class="flex flex-wrap items-center justify-between gap-2 mb-2">
+                        <div class="flex items-center gap-2">
+                            <span class="px-2 py-0.5 rounded-md bg-slate-900 dark:bg-white text-white dark:text-slate-900 text-xs font-black">D${item.day}</span>
+                            <span class="text-xs font-bold text-slate-500">${item.displayDate}</span>
+                            <span class="text-xs">${item.flag} ${item.countryZh}</span>
+                        </div>
+                        <div class="flex items-center gap-3 text-xs text-slate-400">
+                            <span><i class="fa-solid fa-temperature-half text-amber-500"></i> ${item.weather.temp}</span>
+                            <button onclick="toggleBookmark(${item.day}, event)"><i class="fa-${isBookmarked ? 'solid text-rose-500' : 'regular'} fa-heart"></i></button>
+                        </div>
+                    </div>
+
+                    <h4 class="text-base font-bold text-slate-900 dark:text-white mb-2">${item.city}</h4>
+
+                    <div class="space-y-1.5 text-xs text-slate-700 dark:text-slate-300">
+                        ${item.attractions.map(att => `
+                            <div>
+                                <a href="${getMapsUrl(att.name + ' ' + item.city)}" target="_blank" class="hover:underline font-medium text-emerald-600 dark:text-emerald-400">
+                                    • ${att.name}
+                                </a>
+                                ${att.note ? `<span class="text-slate-400 dark:text-slate-500 text-[11px]"> (${att.note})</span>` : ''}
+                            </div>
+                        `).join('')}
+                    </div>
+
+                    ${item.accommodation ? `
+                        <div class="mt-3 pt-2 border-t border-slate-100 dark:border-slate-700/60 text-xs text-purple-600 dark:text-purple-400">
+                            <i class="fa-solid fa-bed mr-1"></i>住宿: 
+                            <a href="${getMapsUrl(item.accommodation.query)}" target="_blank" class="font-bold hover:underline">
+                                ${item.accommodation.name}
+                            </a>
+                        </div>
+                    ` : ''}
+                </div>
+            </div>
+            `;
+        }
+
+        function scrollToToday() {
+            // Find day closest to today or scroll to day 1
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    </script>
+</body>
+</html>
